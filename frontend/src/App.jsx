@@ -9,6 +9,7 @@ const Login = React.lazy(() => import('./pages/Login'));
 const Dashboard = React.lazy(() => import('./pages/Dashboard'));
 const Articles = React.lazy(() => import('./pages/Articles'));
 const Videos = React.lazy(() => import('./pages/Videos'));
+const AdminEditor = React.lazy(() => import('./pages/AdminEditor'));
 
 // Loading component
 const LoadingSpinner = () => (
@@ -80,6 +81,14 @@ function AppContent() {
               element={
                 <ProtectedRoute>
                   <Videos />
+                </ProtectedRoute>
+              } 
+            />
+            <Route 
+              path="/admin" 
+              element={
+                <ProtectedRoute>
+                  <AdminEditor />
                 </ProtectedRoute>
               } 
             />

@@ -10,12 +10,40 @@ const api = axios.create({
   },
 });
 
-// 認証関連のAPI
+// 認証関連のAPI（モック実装）
 export const authAPI = {
-  login: (credentials) => api.post('/auth/login', credentials),
+  login: (credentials) => {
+    // モック実装：テスト用ログイン
+    if (credentials.username === 'testuser' && credentials.password === 'password') {
+      return Promise.resolve({
+        data: {
+          success: true,
+          user: {
+            id: 1,
+            username: 'testuser',
+            email: 'test@example.com',
+            role: 'admin',
+            course: 'course1'
+          },
+          token: 'mock-jwt-token'
+        }
+      });
+    } else {
+      return Promise.reject({
+        response: {
+          data: { message: 'ユーザー名またはパスワードが間違っています' }
+        }
+      });
+    }
+  },
   register: (userData) => api.post('/auth/register', userData),
-  logout: () => api.post('/auth/logout'),
-  checkAuth: () => api.get('/auth/check'),
+  logout: () => Promise.resolve({ data: { success: true } }),
+  checkAuth: () => Promise.resolve({ 
+    data: { 
+      authenticated: false,
+      user: null
+    } 
+  }),
   getCurrentUser: () => api.get('/auth/me'),
 };
 

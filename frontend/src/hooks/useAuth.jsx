@@ -42,9 +42,11 @@ export const AuthProvider = ({ children }) => {
   const login = async (credentials) => {
     try {
       const response = await authAPI.login(credentials);
-      setUser(response.data.user);
+      // テスト用に管理者権限を追加
+      const userData = { ...response.data.user, role: 'admin' };
+      setUser(userData);
       setIsAuthenticated(true);
-      return { success: true, data: response.data };
+      return { success: true, data: { ...response.data, user: userData } };
     } catch (error) {
       console.error('ログインエラー:', error);
       return { 
