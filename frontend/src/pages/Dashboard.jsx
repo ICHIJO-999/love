@@ -5,7 +5,10 @@ import { BookOpen, Play, TrendingUp, Clock, CheckCircle } from 'lucide-react';
 import { contentAPI } from '../services/api';
 import { useAuth } from '../hooks/useAuth.jsx';
 
-const Dashboard = ({ onNavigate }) => {
+import { useNavigate } from 'react-router-dom';
+
+const Dashboard = () => {
+  const navigate = useNavigate();
   const { user } = useAuth();
   const [stats, setStats] = useState({
     totalArticles: 0,
