@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>恋愛コンサル会員サイト - テスト</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            min-height: 100vh;
+        }
+        .container {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 30px;
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+        }
+        h1 {
+            text-align: center;
+            font-size: 2.5em;
+            margin-bottom: 30px;
+        }
+        .login-form {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 30px;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        input {
+            width: 100%;
+            padding: 12px;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            box-sizing: border-box;
+        }
+        button {
+            background: #ff6b6b;
+            color: white;
+            padding: 12px 30px;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 10px;
+        }
+        button:hover {
+            background: #ff5252;
+        }
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 30px;
+        }
+        .feature {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+        }
+        .status {
+            background: #4CAF50;
+            color: white;
+            padding: 10px;
+            border-radius: 5px;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="status">
+            ✅ GitHub Pages デプロイメント成功！
+        </div>
+        
+        <h1>💕 恋愛コンサル会員サイト</h1>
+        
+        <div class="login-form">
+            <h2>ログイン</h2>
+            <div class="form-group">
+                <label for="username">ユーザー名:</label>
+                <input type="text" id="username" name="username" placeholder="ユーザー名を入力">
+            </div>
+            <div class="form-group">
+                <label for="password">パスワード:</label>
+                <input type="password" id="password" name="password" placeholder="パスワードを入力">
+            </div>
+            <button onclick="login()">ログイン</button>
+            <p style="text-align: center; margin-top: 15px;">
+                <a href="#" style="color: #ffeb3b;">アカウントをお持ちでない方はこちら</a>
+            </p>
+        </div>
+        
+        <div class="features">
+            <div class="feature">
+                <h3>📚 記事コンテンツ</h3>
+                <p>恋愛に関する専門的な記事を読むことができます</p>
+            </div>
+            <div class="feature">
+                <h3>🎥 動画コンテンツ</h3>
+                <p>実践的な恋愛テクニックを動画で学習</p>
+            </div>
+            <div class="feature">
+                <h3>📊 進捗管理</h3>
+                <p>学習の進捗を追跡し、成長を実感</p>
+            </div>
+            <div class="feature">
+                <h3>💬 会員限定</h3>
+                <p>コンサル生だけがアクセスできる特別なコンテンツ</p>
+            </div>
+        </div>
+        
+        <div style="text-align: center; margin-top: 30px; font-size: 14px; opacity: 0.8;">
+            <p>🌐 デプロイメント情報:</p>
+            <p>GitHub Pages: <strong>https://ichijo-999.github.io/love</strong></p>
+            <p>最終更新: 2025年9月10日</p>
+        </div>
+    </div>
+
+    <script>
+        function login() {
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            
+            if (username && password) {
+                alert('ログイン機能は開発中です。\n\n実装予定機能:\n- ユーザー認証\n- ダッシュボード\n- コンテンツ管理\n- 進捗追跡');
+            } else {
+                alert('ユーザー名とパスワードを入力してください。');
+            }
+        }
+        
+        // ページ読み込み完了時の処理
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('恋愛コンサル会員サイト - GitHub Pages デプロイメント成功！');
+        });
+    </script>
+</body>
+</html>
