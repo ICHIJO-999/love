@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>一条塾 - 受講生専用サイト</title>
+    <title>THE secret - 一条塾</title>
     <style>
         * {
             margin: 0;
@@ -14,19 +14,34 @@
         body {
             font-family: 'Hiragino Sans', 'ヒラギノ角ゴ Pro W3', 'メイリオ', Meiryo, sans-serif;
             line-height: 1.6;
-            color: #333;
-            background: #f8f9fa;
+            color: #fff;
+            background: #000;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* 背景エフェクト */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 50% 50%, rgba(255, 20, 147, 0.1) 0%, rgba(0, 0, 0, 0.8) 50%, #000 100%);
+            z-index: -1;
         }
 
         /* ヘッダー */
         .header {
-            background: #fff;
-            border-bottom: 2px solid #000;
+            background: rgba(0, 0, 0, 0.9);
+            border-bottom: 1px solid rgba(255, 20, 147, 0.3);
             padding: 1rem 0;
             position: fixed;
             width: 100%;
             top: 0;
             z-index: 1000;
+            backdrop-filter: blur(10px);
         }
 
         .header-content {
@@ -39,675 +54,560 @@
         }
 
         .logo {
-            font-size: 2rem;
+            font-size: 2.5rem;
             font-weight: bold;
-            color: #000;
+            color: #fff;
             text-decoration: none;
+            text-shadow: 0 0 20px rgba(255, 20, 147, 0.8);
+            letter-spacing: 2px;
         }
 
         .user-info {
             font-size: 0.9rem;
-            color: #666;
-        }
-
-        .logout-btn {
-            background: #000;
-            color: #fff;
-            border: none;
-            padding: 0.5rem 1rem;
-            cursor: pointer;
-            margin-left: 1rem;
-            border-radius: 4px;
-        }
-
-        .logout-btn:hover {
-            background: #333;
+            color: rgba(255, 255, 255, 0.8);
+            text-shadow: 0 0 10px rgba(255, 20, 147, 0.5);
         }
 
         /* メインコンテンツ */
-        .main {
-            margin-top: 100px;
-            max-width: 1200px;
-            margin-left: auto;
-            margin-right: auto;
-            padding: 2rem;
+        .main-content {
+            padding-top: 100px;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
-        /* ログイン画面 */
-        .login-container {
-            max-width: 400px;
-            margin: 5rem auto;
-            background: #fff;
+        /* ログインセクション */
+        .login-section {
+            background: rgba(0, 0, 0, 0.8);
+            border: 1px solid rgba(255, 20, 147, 0.3);
+            border-radius: 20px;
             padding: 3rem;
-            border: 2px solid #000;
-            border-radius: 8px;
+            max-width: 500px;
+            width: 90%;
+            text-align: center;
+            box-shadow: 0 0 50px rgba(255, 20, 147, 0.2);
+            backdrop-filter: blur(20px);
         }
 
         .login-title {
-            text-align: center;
-            font-size: 2rem;
+            font-size: 3rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+            color: #fff;
+            text-shadow: 0 0 30px rgba(255, 20, 147, 0.8);
+            letter-spacing: 3px;
+        }
+
+        .login-subtitle {
+            font-size: 1.2rem;
             margin-bottom: 2rem;
-            color: #000;
+            color: rgba(255, 255, 255, 0.8);
+            text-shadow: 0 0 10px rgba(255, 20, 147, 0.3);
         }
 
         .form-group {
             margin-bottom: 1.5rem;
+            text-align: left;
         }
 
-        .form-group label {
+        .form-label {
             display: block;
             margin-bottom: 0.5rem;
-            font-weight: bold;
-            color: #000;
+            color: rgba(255, 255, 255, 0.9);
+            font-weight: 500;
+            text-shadow: 0 0 5px rgba(255, 20, 147, 0.3);
         }
 
-        .form-group input {
+        .form-input {
             width: 100%;
             padding: 1rem;
-            border: 2px solid #000;
-            border-radius: 4px;
+            border: 1px solid rgba(255, 20, 147, 0.3);
+            border-radius: 10px;
+            background: rgba(0, 0, 0, 0.7);
+            color: #fff;
             font-size: 1rem;
+            transition: all 0.3s ease;
         }
 
-        .form-group input:focus {
+        .form-input:focus {
             outline: none;
-            border-color: #666;
+            border-color: rgba(255, 20, 147, 0.8);
+            box-shadow: 0 0 20px rgba(255, 20, 147, 0.3);
         }
 
         .login-btn {
             width: 100%;
             padding: 1rem;
-            background: #000;
-            color: #fff;
+            background: linear-gradient(45deg, rgba(255, 20, 147, 0.8), rgba(255, 20, 147, 0.6));
             border: none;
-            border-radius: 4px;
+            border-radius: 10px;
+            color: #fff;
             font-size: 1.1rem;
+            font-weight: bold;
             cursor: pointer;
+            transition: all 0.3s ease;
+            text-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+            box-shadow: 0 0 20px rgba(255, 20, 147, 0.3);
         }
 
         .login-btn:hover {
-            background: #333;
+            background: linear-gradient(45deg, rgba(255, 20, 147, 1), rgba(255, 20, 147, 0.8));
+            box-shadow: 0 0 30px rgba(255, 20, 147, 0.5);
+            transform: translateY(-2px);
         }
 
-        .error-message {
-            color: #d32f2f;
+        /* 管理者パネル */
+        .admin-panel {
+            background: rgba(0, 0, 0, 0.9);
+            border: 1px solid rgba(255, 20, 147, 0.3);
+            border-radius: 20px;
+            padding: 2rem;
+            margin: 2rem auto;
+            max-width: 1000px;
+            box-shadow: 0 0 50px rgba(255, 20, 147, 0.2);
+        }
+
+        .panel-title {
+            font-size: 2.5rem;
             text-align: center;
-            margin-top: 1rem;
-            padding: 0.5rem;
-            background: #ffebee;
-            border: 1px solid #d32f2f;
-            border-radius: 4px;
+            margin-bottom: 2rem;
+            color: #fff;
+            text-shadow: 0 0 20px rgba(255, 20, 147, 0.8);
         }
 
-        /* ダッシュボード */
-        .dashboard {
-            display: none;
+        .tab-buttons {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            justify-content: center;
         }
 
-        .dashboard.show {
-            display: block;
+        .tab-btn {
+            padding: 0.8rem 1.5rem;
+            background: rgba(255, 20, 147, 0.2);
+            border: 1px solid rgba(255, 20, 147, 0.3);
+            border-radius: 10px;
+            color: #fff;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .tab-btn.active {
+            background: rgba(255, 20, 147, 0.6);
+            box-shadow: 0 0 20px rgba(255, 20, 147, 0.3);
+        }
+
+        .tab-btn:hover {
+            background: rgba(255, 20, 147, 0.4);
+        }
+
+        /* 受講生ダッシュボード */
+        .student-dashboard {
+            background: rgba(0, 0, 0, 0.9);
+            border: 1px solid rgba(255, 20, 147, 0.3);
+            border-radius: 20px;
+            padding: 2rem;
+            margin: 2rem auto;
+            max-width: 1000px;
+            box-shadow: 0 0 50px rgba(255, 20, 147, 0.2);
         }
 
         .course-title {
-            font-size: 2rem;
-            margin-bottom: 2rem;
+            font-size: 2.5rem;
             text-align: center;
-            color: #000;
-            border-bottom: 2px solid #000;
-            padding-bottom: 1rem;
+            margin-bottom: 2rem;
+            color: #fff;
+            text-shadow: 0 0 20px rgba(255, 20, 147, 0.8);
         }
 
         .content-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
             gap: 2rem;
             margin-top: 2rem;
         }
 
         .content-card {
-            background: #fff;
-            border: 2px solid #000;
-            border-radius: 8px;
-            padding: 1.5rem;
-            transition: transform 0.2s;
+            background: rgba(0, 0, 0, 0.7);
+            border: 1px solid rgba(255, 20, 147, 0.3);
+            border-radius: 15px;
+            padding: 2rem;
+            transition: all 0.3s ease;
         }
 
         .content-card:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            border-color: rgba(255, 20, 147, 0.6);
+            box-shadow: 0 0 30px rgba(255, 20, 147, 0.2);
+            transform: translateY(-5px);
         }
 
-        .content-card h3 {
-            font-size: 1.3rem;
+        .content-title {
+            font-size: 1.5rem;
             margin-bottom: 1rem;
-            color: #000;
+            color: #fff;
+            text-shadow: 0 0 10px rgba(255, 20, 147, 0.5);
         }
 
-        .content-card p {
-            color: #666;
-            margin-bottom: 1rem;
-        }
-
-        .content-card .date {
+        .content-date {
+            color: rgba(255, 255, 255, 0.6);
             font-size: 0.9rem;
-            color: #999;
             margin-bottom: 1rem;
         }
 
-        .read-btn, .watch-btn {
-            background: #000;
-            color: #fff;
+        .content-description {
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+        }
+
+        .content-btn {
+            background: linear-gradient(45deg, rgba(255, 20, 147, 0.6), rgba(255, 20, 147, 0.4));
             border: none;
-            padding: 0.5rem 1rem;
-            border-radius: 4px;
-            cursor: pointer;
-            margin-right: 0.5rem;
-        }
-
-        .read-btn:hover, .watch-btn:hover {
-            background: #333;
-        }
-
-        /* 管理者画面 */
-        .admin-panel {
-            display: none;
-        }
-
-        .admin-panel.show {
-            display: block;
-        }
-
-        .admin-nav {
-            display: flex;
-            gap: 1rem;
-            margin-bottom: 2rem;
-            border-bottom: 2px solid #000;
-            padding-bottom: 1rem;
-        }
-
-        .admin-nav button {
-            background: #fff;
-            border: 2px solid #000;
-            padding: 0.5rem 1rem;
-            cursor: pointer;
-            border-radius: 4px;
-        }
-
-        .admin-nav button.active {
-            background: #000;
-            color: #fff;
-        }
-
-        .admin-section {
-            display: none;
-        }
-
-        .admin-section.show {
-            display: block;
-        }
-
-        .add-content-form {
-            background: #fff;
-            border: 2px solid #000;
             border-radius: 8px;
+            color: #fff;
+            padding: 0.8rem 1.5rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: bold;
+        }
+
+        .content-btn:hover {
+            background: linear-gradient(45deg, rgba(255, 20, 147, 0.8), rgba(255, 20, 147, 0.6));
+            box-shadow: 0 0 15px rgba(255, 20, 147, 0.3);
+        }
+
+        .logout-btn {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 8px;
+            color: #fff;
+            padding: 0.5rem 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .logout-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
+        }
+
+        /* フォーム要素 */
+        .form-section {
+            background: rgba(0, 0, 0, 0.7);
+            border: 1px solid rgba(255, 20, 147, 0.3);
+            border-radius: 15px;
             padding: 2rem;
             margin-bottom: 2rem;
         }
 
-        .add-content-form h3 {
+        .section-title {
+            font-size: 1.5rem;
             margin-bottom: 1rem;
-            color: #000;
+            color: #fff;
+            text-shadow: 0 0 10px rgba(255, 20, 147, 0.5);
         }
 
-        .add-content-form input,
-        .add-content-form textarea,
-        .add-content-form select {
+        .form-textarea {
             width: 100%;
-            padding: 0.5rem;
-            border: 2px solid #000;
-            border-radius: 4px;
-            margin-bottom: 1rem;
-        }
-
-        .add-content-form textarea {
-            height: 100px;
+            padding: 1rem;
+            border: 1px solid rgba(255, 20, 147, 0.3);
+            border-radius: 10px;
+            background: rgba(0, 0, 0, 0.7);
+            color: #fff;
+            font-size: 1rem;
+            min-height: 120px;
             resize: vertical;
         }
 
-        .add-btn {
-            background: #000;
+        .form-select {
+            width: 100%;
+            padding: 1rem;
+            border: 1px solid rgba(255, 20, 147, 0.3);
+            border-radius: 10px;
+            background: rgba(0, 0, 0, 0.7);
             color: #fff;
-            border: none;
-            padding: 0.5rem 1rem;
-            border-radius: 4px;
-            cursor: pointer;
-        }
-
-        .add-btn:hover {
-            background: #333;
-        }
-
-        .content-list {
-            background: #fff;
-            border: 2px solid #000;
-            border-radius: 8px;
-            padding: 1rem;
-        }
-
-        .content-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 1rem;
-            border-bottom: 1px solid #eee;
-        }
-
-        .content-item:last-child {
-            border-bottom: none;
+            font-size: 1rem;
         }
 
         .delete-btn {
-            background: #d32f2f;
-            color: #fff;
+            background: rgba(255, 0, 0, 0.6);
             border: none;
-            padding: 0.3rem 0.8rem;
-            border-radius: 4px;
+            border-radius: 5px;
+            color: #fff;
+            padding: 0.5rem 1rem;
             cursor: pointer;
             font-size: 0.9rem;
+            transition: all 0.3s ease;
         }
 
         .delete-btn:hover {
-            background: #b71c1c;
+            background: rgba(255, 0, 0, 0.8);
+            box-shadow: 0 0 10px rgba(255, 0, 0, 0.3);
         }
 
         /* レスポンシブ */
         @media (max-width: 768px) {
-            .header-content {
-                flex-direction: column;
-                gap: 1rem;
-            }
-
-            .main {
-                padding: 1rem;
-                margin-top: 120px;
-            }
-
             .content-grid {
                 grid-template-columns: 1fr;
             }
-
-            .admin-nav {
+            
+            .tab-buttons {
                 flex-direction: column;
             }
-        }
-
-        /* ユーティリティ */
-        .hidden {
-            display: none;
+            
+            .login-title {
+                font-size: 2rem;
+            }
         }
     </style>
 </head>
 <body>
-    <!-- ヘッダー -->
     <header class="header">
         <div class="header-content">
-            <a href="#" class="logo">一条塾</a>
-            <div class="user-info" id="userInfo" style="display: none;">
-                <span id="currentUser"></span>
-                <button class="logout-btn" onclick="logout()">ログアウト</button>
-            </div>
+            <a href="#" class="logo">THE secret</a>
+            <div class="user-info" id="userInfo"></div>
         </div>
     </header>
 
-    <!-- ログイン画面 -->
-    <div id="loginScreen">
-        <div class="login-container">
-            <h1 class="login-title">一条塾</h1>
-            <p style="text-align: center; margin-bottom: 2rem; color: #666;">受講生専用サイト</p>
+    <main class="main-content">
+        <!-- ログイン画面 -->
+        <div id="loginSection" class="login-section">
+            <h1 class="login-title">THE secret</h1>
+            <p class="login-subtitle">一条塾 - 秘密の学習空間</p>
+            
             <form id="loginForm">
                 <div class="form-group">
-                    <label for="password">パスワード</label>
-                    <input type="password" id="password" name="password" placeholder="コースのパスワードを入力してください" required>
+                    <label class="form-label">パスワード</label>
+                    <input type="password" id="passwordInput" class="form-input" placeholder="秘密のパスワードを入力してください...">
                 </div>
-                <button type="submit" class="login-btn">ログイン</button>
+                <button type="submit" class="login-btn">Enter the Secret</button>
             </form>
-            <div id="errorMessage" class="error-message" style="display: none;"></div>
-        </div>
-    </div>
-
-    <!-- 受講生ダッシュボード -->
-    <div id="studentDashboard" class="dashboard main">
-        <h2 class="course-title" id="courseTitle"></h2>
-        <div class="content-grid" id="contentGrid">
-            <!-- コンテンツがここに動的に表示される -->
-        </div>
-    </div>
-
-    <!-- 管理者パネル -->
-    <div id="adminPanel" class="admin-panel main">
-        <h2 class="course-title">管理者パネル</h2>
-        
-        <div class="admin-nav">
-            <button onclick="showAdminSection('articles')" class="active" id="articlesTab">記事管理</button>
-            <button onclick="showAdminSection('videos')" id="videosTab">動画管理</button>
-            <button onclick="showAdminSection('passwords')" id="passwordsTab">パスワード管理</button>
         </div>
 
-        <!-- 記事管理 -->
-        <div id="articlesSection" class="admin-section show">
-            <div class="add-content-form">
-                <h3>新しい記事を追加</h3>
-                <input type="text" id="articleTitle" placeholder="記事タイトル">
-                <textarea id="articleContent" placeholder="記事内容"></textarea>
-                <select id="articleCourse">
-                    <option value="course1">コース1</option>
-                    <option value="course2">コース2</option>
-                    <option value="course3">コース3</option>
-                </select>
-                <button class="add-btn" onclick="addArticle()">記事を追加</button>
+        <!-- 管理者パネル -->
+        <div id="adminPanel" class="admin-panel" style="display: none;">
+            <h2 class="panel-title">Secret Management</h2>
+            <button class="logout-btn" onclick="logout()">ログアウト</button>
+            
+            <div class="tab-buttons">
+                <button class="tab-btn active" onclick="showTab('articles')">記事管理</button>
+                <button class="tab-btn" onclick="showTab('videos')">動画管理</button>
+                <button class="tab-btn" onclick="showTab('passwords')">パスワード管理</button>
             </div>
-            <div class="content-list" id="articlesList">
-                <!-- 記事リストがここに表示される -->
+
+            <!-- 記事管理 -->
+            <div id="articlesTab" class="tab-content">
+                <div class="form-section">
+                    <h3 class="section-title">新しい記事を追加</h3>
+                    <div class="form-group">
+                        <input type="text" id="articleTitle" class="form-input" placeholder="記事タイトル">
+                    </div>
+                    <div class="form-group">
+                        <textarea id="articleContent" class="form-textarea" placeholder="記事内容"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <select id="articleCourse" class="form-select">
+                            <option value="course1">コース1</option>
+                            <option value="course2">コース2</option>
+                            <option value="course3">コース3</option>
+                        </select>
+                    </div>
+                    <button class="content-btn" onclick="addArticle()">記事を追加</button>
+                </div>
+
+                <div class="form-section">
+                    <h3 class="section-title">登録済み記事</h3>
+                    <div id="articlesList"></div>
+                </div>
+            </div>
+
+            <!-- 動画管理 -->
+            <div id="videosTab" class="tab-content" style="display: none;">
+                <div class="form-section">
+                    <h3 class="section-title">新しい動画を追加</h3>
+                    <div class="form-group">
+                        <input type="text" id="videoTitle" class="form-input" placeholder="動画タイトル">
+                    </div>
+                    <div class="form-group">
+                        <input type="text" id="videoUrl" class="form-input" placeholder="動画URL (YouTube等)">
+                    </div>
+                    <div class="form-group">
+                        <textarea id="videoDescription" class="form-textarea" placeholder="動画説明"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <select id="videoCourse" class="form-select">
+                            <option value="course1">コース1</option>
+                            <option value="course2">コース2</option>
+                            <option value="course3">コース3</option>
+                        </select>
+                    </div>
+                    <button class="content-btn" onclick="addVideo()">動画を追加</button>
+                </div>
+
+                <div class="form-section">
+                    <h3 class="section-title">登録済み動画</h3>
+                    <div id="videosList"></div>
+                </div>
+            </div>
+
+            <!-- パスワード管理 -->
+            <div id="passwordsTab" class="tab-content" style="display: none;">
+                <div class="form-section">
+                    <h3 class="section-title">コースパスワード設定</h3>
+                    <div class="form-group">
+                        <label class="form-label">コース1パスワード:</label>
+                        <input type="text" id="course1Password" class="form-input" placeholder="コース1のパスワード">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">コース2パスワード:</label>
+                        <input type="text" id="course2Password" class="form-input" placeholder="コース2のパスワード">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">コース3パスワード:</label>
+                        <input type="text" id="course3Password" class="form-input" placeholder="コース3のパスワード">
+                    </div>
+                    <button class="content-btn" onclick="updatePasswords()">パスワードを更新</button>
+                </div>
             </div>
         </div>
 
-        <!-- 動画管理 -->
-        <div id="videosSection" class="admin-section">
-            <div class="add-content-form">
-                <h3>新しい動画を追加</h3>
-                <input type="text" id="videoTitle" placeholder="動画タイトル">
-                <input type="url" id="videoUrl" placeholder="動画URL (YouTube等)">
-                <textarea id="videoDescription" placeholder="動画説明"></textarea>
-                <select id="videoCourse">
-                    <option value="course1">コース1</option>
-                    <option value="course2">コース2</option>
-                    <option value="course3">コース3</option>
-                </select>
-                <button class="add-btn" onclick="addVideo()">動画を追加</button>
-            </div>
-            <div class="content-list" id="videosList">
-                <!-- 動画リストがここに表示される -->
+        <!-- 受講生ダッシュボード -->
+        <div id="studentDashboard" class="student-dashboard" style="display: none;">
+            <h2 class="course-title" id="courseTitle">Secret Course</h2>
+            <button class="logout-btn" onclick="logout()">ログアウト</button>
+            
+            <div class="content-grid" id="contentGrid">
+                <!-- コンテンツがここに動的に追加されます -->
             </div>
         </div>
-
-        <!-- パスワード管理 -->
-        <div id="passwordsSection" class="admin-section">
-            <div class="add-content-form">
-                <h3>コースパスワード設定</h3>
-                <label>コース1パスワード:</label>
-                <input type="text" id="course1Password" placeholder="コース1のパスワード">
-                <label>コース2パスワード:</label>
-                <input type="text" id="course2Password" placeholder="コース2のパスワード">
-                <label>コース3パスワード:</label>
-                <input type="text" id="course3Password" placeholder="コース3のパスワード">
-                <button class="add-btn" onclick="updatePasswords()">パスワードを更新</button>
-            </div>
-        </div>
-    </div>
+    </main>
 
     <script>
-        // データストレージ（実際の実装ではデータベースを使用）
-        let courseData = {
-            course1: {
-                name: "コース1",
-                password: "course1pass",
-                articles: [
-                    {
-                        id: 1,
-                        title: "コース1 - 第1回講義",
-                        content: "コース1の最初の講義内容です。基礎的な内容から始めていきます。",
-                        date: "2025-01-01"
-                    }
-                ],
-                videos: [
-                    {
-                        id: 1,
-                        title: "コース1 - 導入動画",
-                        url: "https://www.youtube.com/watch?v=example1",
-                        description: "コース1の導入動画です。",
-                        date: "2025-01-01"
-                    }
-                ]
-            },
-            course2: {
-                name: "コース2",
-                password: "course2pass",
-                articles: [
-                    {
-                        id: 1,
-                        title: "コース2 - 応用編",
-                        content: "コース2では応用的な内容を学習します。",
-                        date: "2025-01-02"
-                    }
-                ],
-                videos: [
-                    {
-                        id: 1,
-                        title: "コース2 - 実践動画",
-                        url: "https://www.youtube.com/watch?v=example2",
-                        description: "コース2の実践動画です。",
-                        date: "2025-01-02"
-                    }
-                ]
-            },
-            course3: {
-                name: "コース3",
-                password: "course3pass",
-                articles: [
-                    {
-                        id: 1,
-                        title: "コース3 - 上級編",
-                        content: "コース3では上級者向けの内容を扱います。",
-                        date: "2025-01-03"
-                    }
-                ],
-                videos: [
-                    {
-                        id: 1,
-                        title: "コース3 - マスタークラス",
-                        url: "https://www.youtube.com/watch?v=example3",
-                        description: "コース3のマスタークラス動画です。",
-                        date: "2025-01-03"
-                    }
-                ]
-            }
-        };
-
-        const adminPassword = "admin123";
+        // データストレージ
         let currentUser = null;
-        let currentCourse = null;
+        let articles = [
+            {id: 1, title: 'コース1 - 第1回講義', content: 'コース1の最初の講義内容です。基礎的な内容から始めています。', course: 'course1', date: '2025-01-01'},
+            {id: 2, title: 'コース2 - 応用編', content: 'コース2の応用的な内容です。実践的なテクニックを学びます。', course: 'course2', date: '2025-01-02'},
+            {id: 3, title: 'コース3 - 上級編', content: 'コース3の上級者向け内容です。高度な戦略を解説します。', course: 'course3', date: '2025-01-03'}
+        ];
+        
+        let videos = [
+            {id: 1, title: 'コース1 - 導入動画', url: 'https://youtube.com/watch?v=example1', description: 'コース1の導入動画です。', course: 'course1', date: '2025-01-01'},
+            {id: 2, title: 'コース2 - 実践動画', url: 'https://youtube.com/watch?v=example2', description: 'コース2の実践動画です。', course: 'course2', date: '2025-01-02'}
+        ];
+        
+        let passwords = {
+            admin: 'admin123',
+            course1: 'course1pass',
+            course2: 'course2pass',
+            course3: 'course3pass'
+        };
 
         // ログイン処理
         document.getElementById('loginForm').addEventListener('submit', function(e) {
             e.preventDefault();
-            const password = document.getElementById('password').value;
-            const errorDiv = document.getElementById('errorMessage');
+            const password = document.getElementById('passwordInput').value;
             
-            // 管理者ログイン
-            if (password === adminPassword) {
+            if (password === passwords.admin) {
                 currentUser = 'admin';
                 showAdminPanel();
-                return;
-            }
-            
-            // 受講生ログイン
-            let foundCourse = null;
-            for (let courseId in courseData) {
-                if (courseData[courseId].password === password) {
-                    foundCourse = courseId;
-                    break;
-                }
-            }
-            
-            if (foundCourse) {
-                currentUser = 'student';
-                currentCourse = foundCourse;
-                showStudentDashboard(foundCourse);
+            } else if (password === passwords.course1) {
+                currentUser = 'course1';
+                showStudentDashboard('course1');
+            } else if (password === passwords.course2) {
+                currentUser = 'course2';
+                showStudentDashboard('course2');
+            } else if (password === passwords.course3) {
+                currentUser = 'course3';
+                showStudentDashboard('course3');
             } else {
-                errorDiv.textContent = 'パスワードが正しくありません';
-                errorDiv.style.display = 'block';
+                alert('パスワードが間違っています');
             }
         });
 
-        // 受講生ダッシュボード表示
-        function showStudentDashboard(courseId) {
-            document.getElementById('loginScreen').style.display = 'none';
-            document.getElementById('studentDashboard').classList.add('show');
-            document.getElementById('userInfo').style.display = 'block';
-            document.getElementById('currentUser').textContent = courseData[courseId].name + ' 受講生';
-            document.getElementById('courseTitle').textContent = courseData[courseId].name;
-            
-            loadCourseContent(courseId);
-        }
-
-        // 管理者パネル表示
         function showAdminPanel() {
-            document.getElementById('loginScreen').style.display = 'none';
-            document.getElementById('adminPanel').classList.add('show');
-            document.getElementById('userInfo').style.display = 'block';
-            document.getElementById('currentUser').textContent = '管理者';
-            
-            loadAdminData();
+            document.getElementById('loginSection').style.display = 'none';
+            document.getElementById('adminPanel').style.display = 'block';
+            document.getElementById('userInfo').textContent = '管理者';
+            loadArticles();
+            loadVideos();
+            loadPasswords();
         }
 
-        // コースコンテンツ読み込み
-        function loadCourseContent(courseId) {
-            const contentGrid = document.getElementById('contentGrid');
-            const course = courseData[courseId];
-            let html = '';
-            
-            // 記事表示
-            course.articles.forEach(article => {
-                html += `
-                    <div class="content-card">
-                        <h3>${article.title}</h3>
-                        <p class="date">${article.date}</p>
-                        <p>${article.content.substring(0, 100)}...</p>
-                        <button class="read-btn" onclick="readArticle(${article.id}, '${courseId}')">記事を読む</button>
-                    </div>
-                `;
-            });
-            
-            // 動画表示
-            course.videos.forEach(video => {
-                html += `
-                    <div class="content-card">
-                        <h3>${video.title}</h3>
-                        <p class="date">${video.date}</p>
-                        <p>${video.description}</p>
-                        <button class="watch-btn" onclick="watchVideo('${video.url}')">動画を見る</button>
-                    </div>
-                `;
-            });
-            
-            contentGrid.innerHTML = html;
+        function showStudentDashboard(course) {
+            document.getElementById('loginSection').style.display = 'none';
+            document.getElementById('studentDashboard').style.display = 'block';
+            document.getElementById('userInfo').textContent = `${course.toUpperCase()}受講生`;
+            document.getElementById('courseTitle').textContent = `Secret ${course.toUpperCase()}`;
+            loadStudentContent(course);
         }
 
-        // 記事読み込み
-        function readArticle(articleId, courseId) {
-            const article = courseData[courseId].articles.find(a => a.id === articleId);
-            if (article) {
-                alert(`${article.title}\n\n${article.content}`);
-            }
+        function logout() {
+            currentUser = null;
+            document.getElementById('loginSection').style.display = 'block';
+            document.getElementById('adminPanel').style.display = 'none';
+            document.getElementById('studentDashboard').style.display = 'none';
+            document.getElementById('userInfo').textContent = '';
+            document.getElementById('passwordInput').value = '';
         }
 
-        // 動画視聴
-        function watchVideo(url) {
-            window.open(url, '_blank');
-        }
-
-        // 管理者セクション切り替え
-        function showAdminSection(section) {
-            // タブの切り替え
-            document.querySelectorAll('.admin-nav button').forEach(btn => btn.classList.remove('active'));
-            document.getElementById(section + 'Tab').classList.add('active');
+        // タブ切り替え
+        function showTab(tabName) {
+            document.querySelectorAll('.tab-content').forEach(tab => tab.style.display = 'none');
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
             
-            // セクションの切り替え
-            document.querySelectorAll('.admin-section').forEach(sec => sec.classList.remove('show'));
-            document.getElementById(section + 'Section').classList.add('show');
+            document.getElementById(tabName + 'Tab').style.display = 'block';
+            event.target.classList.add('active');
         }
 
-        // 管理者データ読み込み
-        function loadAdminData() {
-            loadArticlesList();
-            loadVideosList();
-            loadPasswordSettings();
-        }
-
-        // 記事リスト読み込み
-        function loadArticlesList() {
-            const articlesList = document.getElementById('articlesList');
-            let html = '<h3>登録済み記事</h3>';
-            
-            for (let courseId in courseData) {
-                courseData[courseId].articles.forEach(article => {
-                    html += `
-                        <div class="content-item">
-                            <div>
-                                <strong>${article.title}</strong> (${courseData[courseId].name})
-                                <br><small>${article.date}</small>
-                            </div>
-                            <button class="delete-btn" onclick="deleteArticle(${article.id}, '${courseId}')">削除</button>
-                        </div>
-                    `;
-                });
-            }
-            
-            articlesList.innerHTML = html;
-        }
-
-        // 動画リスト読み込み
-        function loadVideosList() {
-            const videosList = document.getElementById('videosList');
-            let html = '<h3>登録済み動画</h3>';
-            
-            for (let courseId in courseData) {
-                courseData[courseId].videos.forEach(video => {
-                    html += `
-                        <div class="content-item">
-                            <div>
-                                <strong>${video.title}</strong> (${courseData[courseId].name})
-                                <br><small>${video.date}</small>
-                            </div>
-                            <button class="delete-btn" onclick="deleteVideo(${video.id}, '${courseId}')">削除</button>
-                        </div>
-                    `;
-                });
-            }
-            
-            videosList.innerHTML = html;
-        }
-
-        // パスワード設定読み込み
-        function loadPasswordSettings() {
-            document.getElementById('course1Password').value = courseData.course1.password;
-            document.getElementById('course2Password').value = courseData.course2.password;
-            document.getElementById('course3Password').value = courseData.course3.password;
-        }
-
-        // 記事追加
+        // 記事管理
         function addArticle() {
             const title = document.getElementById('articleTitle').value;
             const content = document.getElementById('articleContent').value;
             const course = document.getElementById('articleCourse').value;
             
             if (title && content) {
-                const newId = Math.max(...courseData[course].articles.map(a => a.id), 0) + 1;
-                courseData[course].articles.push({
-                    id: newId,
+                const newArticle = {
+                    id: articles.length + 1,
                     title: title,
                     content: content,
+                    course: course,
                     date: new Date().toISOString().split('T')[0]
-                });
+                };
+                articles.push(newArticle);
+                loadArticles();
                 
+                // フォームクリア
                 document.getElementById('articleTitle').value = '';
                 document.getElementById('articleContent').value = '';
-                loadArticlesList();
-                alert('記事が追加されました');
             }
         }
 
-        // 動画追加
+        function loadArticles() {
+            const articlesList = document.getElementById('articlesList');
+            articlesList.innerHTML = '';
+            
+            articles.forEach(article => {
+                const articleDiv = document.createElement('div');
+                articleDiv.style.cssText = 'display: flex; justify-content: space-between; align-items: center; padding: 1rem; margin-bottom: 1rem; background: rgba(255, 20, 147, 0.1); border-radius: 10px; border: 1px solid rgba(255, 20, 147, 0.2);';
+                articleDiv.innerHTML = `
+                    <div>
+                        <strong style="color: #fff;">${article.title}</strong> (${article.course.toUpperCase()})<br>
+                        <small style="color: rgba(255, 255, 255, 0.6);">${article.date}</small>
+                    </div>
+                    <button class="delete-btn" onclick="deleteArticle(${article.id})">削除</button>
+                `;
+                articlesList.appendChild(articleDiv);
+            });
+        }
+
+        function deleteArticle(id) {
+            articles = articles.filter(article => article.id !== id);
+            loadArticles();
+        }
+
+        // 動画管理
         function addVideo() {
             const title = document.getElementById('videoTitle').value;
             const url = document.getElementById('videoUrl').value;
@@ -715,63 +615,103 @@
             const course = document.getElementById('videoCourse').value;
             
             if (title && url) {
-                const newId = Math.max(...courseData[course].videos.map(v => v.id), 0) + 1;
-                courseData[course].videos.push({
-                    id: newId,
+                const newVideo = {
+                    id: videos.length + 1,
                     title: title,
                     url: url,
                     description: description,
+                    course: course,
                     date: new Date().toISOString().split('T')[0]
-                });
+                };
+                videos.push(newVideo);
+                loadVideos();
                 
+                // フォームクリア
                 document.getElementById('videoTitle').value = '';
                 document.getElementById('videoUrl').value = '';
                 document.getElementById('videoDescription').value = '';
-                loadVideosList();
-                alert('動画が追加されました');
             }
         }
 
-        // パスワード更新
+        function loadVideos() {
+            const videosList = document.getElementById('videosList');
+            videosList.innerHTML = '';
+            
+            videos.forEach(video => {
+                const videoDiv = document.createElement('div');
+                videoDiv.style.cssText = 'display: flex; justify-content: space-between; align-items: center; padding: 1rem; margin-bottom: 1rem; background: rgba(255, 20, 147, 0.1); border-radius: 10px; border: 1px solid rgba(255, 20, 147, 0.2);';
+                videoDiv.innerHTML = `
+                    <div>
+                        <strong style="color: #fff;">${video.title}</strong> (${video.course.toUpperCase()})<br>
+                        <small style="color: rgba(255, 255, 255, 0.6);">${video.date}</small>
+                    </div>
+                    <button class="delete-btn" onclick="deleteVideo(${video.id})">削除</button>
+                `;
+                videosList.appendChild(videoDiv);
+            });
+        }
+
+        function deleteVideo(id) {
+            videos = videos.filter(video => video.id !== id);
+            loadVideos();
+        }
+
+        // パスワード管理
+        function loadPasswords() {
+            document.getElementById('course1Password').value = passwords.course1;
+            document.getElementById('course2Password').value = passwords.course2;
+            document.getElementById('course3Password').value = passwords.course3;
+        }
+
         function updatePasswords() {
-            courseData.course1.password = document.getElementById('course1Password').value;
-            courseData.course2.password = document.getElementById('course2Password').value;
-            courseData.course3.password = document.getElementById('course3Password').value;
+            passwords.course1 = document.getElementById('course1Password').value;
+            passwords.course2 = document.getElementById('course2Password').value;
+            passwords.course3 = document.getElementById('course3Password').value;
             alert('パスワードが更新されました');
         }
 
-        // 記事削除
-        function deleteArticle(articleId, courseId) {
-            if (confirm('この記事を削除しますか？')) {
-                courseData[courseId].articles = courseData[courseId].articles.filter(a => a.id !== articleId);
-                loadArticlesList();
-            }
+        // 受講生コンテンツ表示
+        function loadStudentContent(course) {
+            const contentGrid = document.getElementById('contentGrid');
+            contentGrid.innerHTML = '';
+            
+            // 記事表示
+            const courseArticles = articles.filter(article => article.course === course);
+            courseArticles.forEach(article => {
+                const articleCard = document.createElement('div');
+                articleCard.className = 'content-card';
+                articleCard.innerHTML = `
+                    <h3 class="content-title">${article.title}</h3>
+                    <p class="content-date">${article.date}</p>
+                    <p class="content-description">${article.content}</p>
+                    <button class="content-btn" onclick="readArticle(${article.id})">記事を読む</button>
+                `;
+                contentGrid.appendChild(articleCard);
+            });
+            
+            // 動画表示
+            const courseVideos = videos.filter(video => video.course === course);
+            courseVideos.forEach(video => {
+                const videoCard = document.createElement('div');
+                videoCard.className = 'content-card';
+                videoCard.innerHTML = `
+                    <h3 class="content-title">${video.title}</h3>
+                    <p class="content-date">${video.date}</p>
+                    <p class="content-description">${video.description}</p>
+                    <button class="content-btn" onclick="watchVideo('${video.url}')">動画を見る</button>
+                `;
+                contentGrid.appendChild(videoCard);
+            });
         }
 
-        // 動画削除
-        function deleteVideo(videoId, courseId) {
-            if (confirm('この動画を削除しますか？')) {
-                courseData[courseId].videos = courseData[courseId].videos.filter(v => v.id !== videoId);
-                loadVideosList();
-            }
+        function readArticle(id) {
+            const article = articles.find(a => a.id === id);
+            alert(`記事: ${article.title}\n\n${article.content}`);
         }
 
-        // ログアウト
-        function logout() {
-            currentUser = null;
-            currentCourse = null;
-            document.getElementById('loginScreen').style.display = 'block';
-            document.getElementById('studentDashboard').classList.remove('show');
-            document.getElementById('adminPanel').classList.remove('show');
-            document.getElementById('userInfo').style.display = 'none';
-            document.getElementById('password').value = '';
-            document.getElementById('errorMessage').style.display = 'none';
+        function watchVideo(url) {
+            window.open(url, '_blank');
         }
-
-        // 初期化
-        document.addEventListener('DOMContentLoaded', function() {
-            console.log('一条塾システムが読み込まれました');
-        });
     </script>
 </body>
 </html>
