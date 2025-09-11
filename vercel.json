@@ -1,13 +1,7 @@
 {
   "functions": {
     "api/github.js": {
-      "runtime": "nodejs18.x"
+      "runtime": "@vercel/node@18"
     }
-  },
-  "rewrites": [
-    {
-      "source": "/api/github",
-      "destination": "/api/github.js"
-    }
-  ]
+  }
 }
