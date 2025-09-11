@@ -1,5 +1,13 @@
 [
   {
+    "id": 1757610030844,
+    "title": "THE secret",
+    "content": "<p>データを\"レコードとして\"検索・ワークフロー連携（通知/Assign/Label）\"したいのが主目的なら</p><p>→ GitHub Issues API</p><p>理由：投稿=1レコード扱いで増やしやすい/検索</p>",
+    "course": "course1",
+    "createdAt": "2025-09-11T17:00:30.844Z",
+    "editor": "TIPS Level Editor Enhanced"
+  },
+  {
     "id": 1757609548256,
     "title": "あ",
     "content": "あ",
