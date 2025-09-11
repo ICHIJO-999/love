@@ -7,7 +7,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Badge } from '@/components/ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useAuth } from '../hooks/useAuth';
-import TheSecretEditor from '../components/TheSecretEditor.jsx';
+import UltimateEditor from '../components/UltimateEditor.jsx';
 import { 
   Plus, 
   Save, 
@@ -147,7 +147,7 @@ const AdminEditor = () => {
                 新しい記事を作成
               </CardTitle>
               <CardDescription className="text-gray-400">
-                THE secret風デザインのTIPS同等エディターで記事を作成できます
+                文章途中への画像挿入と自動保存機能付きのUltimateエディター
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-6">
@@ -194,13 +194,14 @@ const AdminEditor = () => {
                 </div>
               </div>
 
-              {/* THE secret風エディター */}
+              {/* Ultimate エディター */}
               <div className="space-y-2">
                 <Label className="text-white">記事内容</Label>
-                <TheSecretEditor
+                <UltimateEditor
                   content={articleContent}
                   onChange={setArticleContent}
                   placeholder="記事の内容を入力してください。画像をドラッグ&ドロップで挿入できます。"
+                  articleId={`article_${Date.now()}`}
                 />
               </div>
 
@@ -241,7 +242,7 @@ const AdminEditor = () => {
           {/* エディター機能説明 */}
           <Card className="bg-gray-900 border-pink-500/20">
             <CardHeader>
-              <CardTitle className="text-white">THE secret風エディター機能</CardTitle>
+              <CardTitle className="text-white">Ultimate エディター機能</CardTitle>
             </CardHeader>
             <CardContent>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 text-gray-300">
@@ -262,12 +263,21 @@ const AdminEditor = () => {
                   </ul>
                 </div>
                 <div>
-                  <h4 className="font-semibold text-pink-400 mb-2">THE secret風デザイン</h4>
+                  <h4 className="font-semibold text-pink-400 mb-2">高度な画像挿入</h4>
                   <ul className="space-y-1 text-sm">
-                    <li>• ピンクグロー効果</li>
-                    <li>• グラデーション背景</li>
-                    <li>• 美しいシャドウ効果</li>
-                    <li>• アニメーション付きUI</li>
+                    <li>• 文章途中への画像挿入</li>
+                    <li>• ドラッグ&ドロップ対応</li>
+                    <li>• 自動リサイズ機能</li>
+                    <li>• 美しいスタイリング</li>
+                  </ul>
+                </div>
+                <div>
+                  <h4 className="font-semibold text-pink-400 mb-2">自動保存機能</h4>
+                  <ul className="space-y-1 text-sm">
+                    <li>• 2秒間隔での自動保存</li>
+                    <li>• LocalStorage バックアップ</li>
+                    <li>• 保存状況の表示</li>
+                    <li>• 下書き復元機能</li>
                   </ul>
                 </div>
               </div>
