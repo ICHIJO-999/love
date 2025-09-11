@@ -7,7 +7,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Badge } from '@/components/ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useAuth } from '../hooks/useAuth';
-import UltimateEditor from '../components/UltimateEditor.jsx';
+import FinalEditor from '../components/FinalEditor.jsx';
 import { 
   Plus, 
   Save, 
@@ -147,7 +147,7 @@ const AdminEditor = () => {
                 新しい記事を作成
               </CardTitle>
               <CardDescription className="text-gray-400">
-                文章途中への画像挿入と自動保存機能付きのUltimateエディター
+                シンプルで確実に動作するドラッグ&ドロップ対応エディター
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-6">
@@ -194,10 +194,10 @@ const AdminEditor = () => {
                 </div>
               </div>
 
-              {/* Ultimate エディター */}
+              {/* Final エディター */}
               <div className="space-y-2">
                 <Label className="text-white">記事内容</Label>
-                <UltimateEditor
+                <FinalEditor
                   content={articleContent}
                   onChange={setArticleContent}
                   placeholder="記事の内容を入力してください。画像をドラッグ&ドロップで挿入できます。"
@@ -242,7 +242,7 @@ const AdminEditor = () => {
           {/* エディター機能説明 */}
           <Card className="bg-gray-900 border-pink-500/20">
             <CardHeader>
-              <CardTitle className="text-white">Ultimate エディター機能</CardTitle>
+              <CardTitle className="text-white">Final エディター機能</CardTitle>
             </CardHeader>
             <CardContent>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 text-gray-300">
@@ -255,19 +255,20 @@ const AdminEditor = () => {
                   </ul>
                 </div>
                 <div>
-                  <h4 className="font-semibold text-pink-400 mb-2">文字装飾</h4>
+                  <h4 className="font-semibold text-pink-400 mb-2">簡単な文字色変更</h4>
                   <ul className="space-y-1 text-sm">
-                    <li>• 8色の文字色変更</li>
-                    <li>• ハイライト機能</li>
-                    <li>• フォーマットリセット</li>
+                    <li>• プルダウン式選択</li>
+                    <li>• 白、赤、青の3色</li>
+                    <li>• 直感的な操作</li>
+                    <li>• リアルタイム反映</li>
                   </ul>
                 </div>
                 <div>
-                  <h4 className="font-semibold text-pink-400 mb-2">高度な画像挿入</h4>
+                  <h4 className="font-semibold text-pink-400 mb-2">簡単な画像挿入</h4>
                   <ul className="space-y-1 text-sm">
-                    <li>• 文章途中への画像挿入</li>
-                    <li>• ドラッグ&ドロップ対応</li>
-                    <li>• 自動リサイズ機能</li>
+                    <li>• ドラッグ&ドロップで挿入</li>
+                    <li>• 画像選択ボタン</li>
+                    <li>• ブロック間に自動挿入</li>
                     <li>• 美しいスタイリング</li>
                   </ul>
                 </div>
