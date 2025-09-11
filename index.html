@@ -3,12 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>THE secret - 統合サイト Enhanced</title>
+    <title>THE secret - 統合サイト Vercel版</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             font-family: "Hiragino Sans", sans-serif;
             background: #000; color: #fff; min-height: 100vh;
+            overflow-x: hidden;
         }
         body::before {
             content: ""; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
@@ -25,9 +26,8 @@
             background: linear-gradient(45deg, #ff1493, #ff69b4, #ff1493);
             -webkit-background-clip: text; -webkit-text-fill-color: transparent;
             background-clip: text; text-shadow: 0 0 30px rgba(255,20,147,0.5);
-            border: 2px solid #ff1493; padding: 1rem 2rem; border-radius: 10px;
-            box-shadow: 0 0 20px rgba(255,20,147,0.3), inset 0 0 20px rgba(255,20,147,0.1);
-            position: fixed; top: 20px; left: 20px; font-size: 1.5rem;
+            box-shadow: 0 0 20px rgba(255,20,147,0.3); inset 0 0 20px rgba(255,20,147,0.1);
+            position: fixed; top: 20px; left: 20px; font-size: 1.3rem;
         }
         .login-container {
             background: rgba(255,20,147,0.1); padding: 3rem; border-radius: 20px;
@@ -35,12 +35,12 @@
             box-shadow: 0 0 50px rgba(255,20,147,0.2); max-width: 500px; width: 100%;
         }
         .login-title {
-            font-size: 2.5rem; margin-bottom: 1rem;
+            font-size: 2.5rem; margin-bottom: 1rem; color: #ff1493;
             background: linear-gradient(45deg, #ff1493, #ff69b4);
             -webkit-background-clip: text; -webkit-text-fill-color: transparent;
             background-clip: text;
         }
-        .login-subtitle { color: #ccc; margin-bottom: 2rem; }
+        .login-subtitle { color: #ccc; margin-bottom: 2rem; text-align: left; }
         .form-group { margin-bottom: 1.5rem; text-align: left; }
         .form-group label {
             display: block; margin-bottom: 0.5rem; color: #ff1493; font-weight: bold;
@@ -57,351 +57,356 @@
             background: linear-gradient(45deg, #ff1493, #ff69b4); color: #fff;
             border: none; padding: 1rem 2rem; border-radius: 10px; font-size: 1.1rem;
             font-weight: bold; cursor: pointer; transition: all 0.3s ease; margin: 0.5rem;
-            box-shadow: 0 0 20px rgba(255,20,147,0.3);
         }
         .btn:hover {
-            transform: translateY(-2px); box-shadow: 0 5px 30px rgba(255,20,147,0.4);
+            box-shadow: 0 0 20px rgba(255,20,147,0.3); inset 0 0 20px rgba(255,20,147,0.1);
         }
-        .btn-primary { width: 100%; }
-        .password-hint {
-            font-size: 0.9rem; color: #888; margin-top: 1rem; text-align: center;
-        }
-        .editor-container {
-            display: none; max-width: 1200px; width: 100%; margin: 2rem auto;
-            background: rgba(255,20,147,0.05); border-radius: 20px; padding: 2rem;
-            border: 1px solid rgba(255,20,147,0.2);
+        .btn:hover { cursor: pointer; transform: translateY(-2px); }
+        .btn-hover { background: linear-gradient(45deg, #ff1493, #ff69b4); color: #fff; }
+        .btn:hover { cursor: pointer; }
+        .login-subtitle { color: #ccc; margin-bottom: 2rem; text-align: center; }
+        .password-hint { color: #999; font-size: 0.9rem; margin-top: 1rem; text-align: center; }
+
+        /* エディター画面のスタイル */
+        .editor-container { display: none; max-width: 1200px; margin: 0 auto; padding: 2rem; }
+        .editor-header {
+            text-align: center; margin-bottom: 2rem;
+            background: rgba(255,20,147,0.1); padding: 2rem; border-radius: 15px;
+            border: 1px solid rgba(255,20,147,0.3);
         }
         .editor-title {
-            font-size: 2rem; margin-bottom: 1rem; text-align: center;
+            font-size: 2rem; color: #ff1493; margin-bottom: 1rem;
             background: linear-gradient(45deg, #ff1493, #ff69b4);
             -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-            background-clip: text;
         }
         .status-indicator {
-            background: #28a745; color: #fff; padding: 0.5rem 1rem;
-            border-radius: 20px; font-size: 0.9rem; margin-bottom: 2rem;
-            display: inline-block;
+            background: #00ff00; color: #000; padding: 0.5rem 1rem;
+            border-radius: 20px; font-weight: bold; display: inline-block;
         }
-        .editor-section {
-            background: rgba(0,0,0,0.3); border-radius: 15px; padding: 1.5rem;
-            margin-bottom: 2rem; border: 1px solid rgba(255,20,147,0.2);
+        .article-info {
+            background: rgba(255,20,147,0.1); padding: 2rem; border-radius: 15px;
+            border: 1px solid rgba(255,20,147,0.3); margin-bottom: 2rem;
         }
-        .section-title {
-            color: #ff1493; font-size: 1.3rem; margin-bottom: 1rem; font-weight: bold;
-        }
+        .article-info h3 { color: #ff1493; margin-bottom: 1rem; text-align: center; }
         .toolbar {
             display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 1rem;
-            padding: 1rem; background: rgba(255,20,147,0.1); border-radius: 10px;
+            justify-content: center; align-items: center;
         }
-        .toolbar-btn {
-            background: rgba(255,20,147,0.2); color: #fff; border: 1px solid rgba(255,20,147,0.3);
-            padding: 0.5rem 1rem; border-radius: 5px; cursor: pointer; font-size: 0.9rem;
-            transition: all 0.3s ease;
+        .toolbar button {
+            background: linear-gradient(45deg, #ff1493, #ff69b4); color: #fff;
+            border: none; padding: 0.5rem 1rem; border-radius: 8px;
+            cursor: pointer; font-weight: bold; transition: all 0.3s ease;
         }
-        .toolbar-btn:hover {
-            background: rgba(255,20,147,0.4); transform: translateY(-1px);
-        }
-        .toolbar-btn.red { background: rgba(220,20,60,0.3); border-color: #dc143c; }
-        .toolbar-btn.blue { background: rgba(30,144,255,0.3); border-color: #1e90ff; }
-        .content-editor {
-            min-height: 300px; border: 2px solid rgba(255,20,147,0.3);
-            border-radius: 10px; padding: 1rem; background: rgba(0,0,50,0.3);
-            color: #fff; font-size: 1rem; line-height: 1.6; outline: none;
-            position: relative; overflow-y: auto;
-        }
-        .content-editor:focus {
-            border-color: #ff1493; box-shadow: 0 0 20px rgba(255,20,147,0.3);
-        }
-        .content-editor img {
-            max-width: 100%; height: auto; border-radius: 8px; margin: 10px 0;
-            cursor: pointer; transition: transform 0.3s ease;
-        }
-        .content-editor img:hover {
-            transform: scale(1.02); box-shadow: 0 5px 20px rgba(255,20,147,0.3);
-        }
-        .drag-overlay {
-            position: absolute; top: 0; left: 0; right: 0; bottom: 0;
-            background: rgba(255,20,147,0.2); border: 3px dashed #ff1493;
-            border-radius: 10px; display: none; align-items: center; justify-content: center;
-            font-size: 1.2rem; font-weight: bold; color: #ff1493;
-        }
-        .char-counter {
-            text-align: right; color: #888; font-size: 0.9rem; margin-top: 0.5rem;
+        .toolbar button:hover {
+            box-shadow: 0 0 15px rgba(255,20,147,0.5); transform: translateY(-1px);
         }
         .drop-zone {
             border: 2px dashed rgba(255,20,147,0.5); border-radius: 10px;
-            padding: 2rem; text-align: center; color: #888; margin-bottom: 1rem;
-            transition: all 0.3s ease; cursor: pointer;
+            padding: 2rem; text-align: center; margin-bottom: 1rem;
+            background: rgba(255,20,147,0.05); transition: all 0.3s ease;
         }
-        .drop-zone:hover, .drop-zone.dragover {
-            border-color: #ff1493; background: rgba(255,20,147,0.1); color: #ff1493;
+        .drop-zone:hover { border-color: #ff1493; background: rgba(255,20,147,0.1); }
+        .content-editor {
+            width: 100%; min-height: 300px; padding: 1rem;
+            border: 2px solid rgba(255,20,147,0.3); border-radius: 10px;
+            background: rgba(0,0,0,0.3); color: #fff; font-size: 1rem;
+            resize: vertical; outline: none;
         }
+        .content-editor:focus { border-color: #ff1493; box-shadow: 0 0 20px rgba(255,20,147,0.3); }
+        .char-counter { text-align: right; color: #999; margin-top: 0.5rem; }
         .action-buttons {
-            display: flex; flex-wrap: wrap; gap: 1rem; justify-content: center; margin-top: 2rem;
+            display: flex; flex-wrap: wrap; gap: 1rem; justify-content: center;
+            margin-top: 2rem;
         }
-        .student-container {
-            display: none; max-width: 1000px; width: 100%; margin: 2rem auto;
-        }
-        .course-header {
+        .student-container { display: none; }
+        .course-info {
             background: rgba(255,20,147,0.1); padding: 2rem; border-radius: 15px;
-            text-align: center; margin-bottom: 2rem; border: 1px solid rgba(255,20,147,0.3);
+            border: 1px solid rgba(255,20,147,0.3); margin-bottom: 2rem; text-align: center;
         }
-        .course-title {
-            font-size: 2rem; color: #ff1493; margin-bottom: 0.5rem;
-        }
-        .course-description { color: #ccc; font-size: 1.1rem; }
-        .articles-grid {
-            display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 1.5rem; margin-top: 2rem;
-        }
+        .course-title { color: #ff1493; font-size: 1.5rem; margin-bottom: 1rem; }
+        .articles-list { display: grid; gap: 1rem; }
         .article-card {
-            background: rgba(255,20,147,0.1); border-radius: 15px; padding: 1.5rem;
-            border: 1px solid rgba(255,20,147,0.2); transition: all 0.3s ease;
-            cursor: pointer;
+            background: rgba(255,20,147,0.1); padding: 1.5rem; border-radius: 10px;
+            border: 1px solid rgba(255,20,147,0.3); text-align: left;
         }
-        .article-card:hover {
-            transform: translateY(-5px); box-shadow: 0 10px 30px rgba(255,20,147,0.3);
-        }
-        .article-title {
-            color: #ff1493; font-size: 1.3rem; margin-bottom: 0.5rem; font-weight: bold;
-        }
-        .article-meta {
-            color: #888; font-size: 0.9rem; margin-bottom: 1rem;
-        }
-        .article-preview {
-            color: #ccc; line-height: 1.5; display: -webkit-box;
-            -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;
-        }
-        .error-message {
-            background: rgba(220,20,60,0.2); color: #ff6b6b; padding: 1rem;
-            border-radius: 10px; border: 1px solid rgba(220,20,60,0.3); text-align: center;
-        }
-        .user-info {
-            position: fixed; top: 20px; right: 20px; background: rgba(255,20,147,0.2);
-            padding: 0.5rem 1rem; border-radius: 20px; font-size: 0.9rem;
-            border: 1px solid rgba(255,20,147,0.3);
-        }
-        .image-upload-input {
-            display: none;
-        }
-        .image-size-controls {
-            display: none; position: absolute; background: rgba(0,0,0,0.8);
-            padding: 0.5rem; border-radius: 5px; z-index: 1000;
-        }
-        .image-size-controls button {
-            background: #ff1493; color: white; border: none; padding: 0.3rem 0.6rem;
-            margin: 0 0.2rem; border-radius: 3px; cursor: pointer; font-size: 0.8rem;
-        }
-        @media (max-width: 768px) {
-            .container { padding: 1rem; }
-            .logo { position: static; margin-bottom: 2rem; }
-            .toolbar { flex-direction: column; }
-            .action-buttons { flex-direction: column; }
-        }
+        .article-card h4 { color: #ff1493; margin-bottom: 0.5rem; }
+        .article-meta { color: #999; font-size: 0.9rem; margin-bottom: 1rem; }
+        .article-content { color: #ccc; line-height: 1.6; }
     </style>
 </head>
 <body>
-    <div class="container">
-        <a href="#" class="logo">THE secret</a>
-        <div class="user-info" id="userInfo" style="display: none;"></div>
-        
-        <!-- ログイン画面 -->
-        <div class="login-container" id="loginContainer">
+    <a href="#" class="logo">THE secret</a>
+
+    <!-- ログイン画面 -->
+    <div class="container" id="loginScreen">
+        <div class="login-container">
             <h1 class="login-title">THE secret</h1>
-            <p class="login-subtitle">統合サイト - 管理者・受講生対応</p>
+            <p class="login-subtitle">統合サイト Vercel版 - 完全自動保存対応</p>
             
             <div class="form-group">
                 <label for="password">パスワード</label>
-                <input type="password" id="password" placeholder="パスワードを入力してください..." />
+                <input type="password" id="password" placeholder="パスワードを入力してください...">
             </div>
             
-            <button class="btn btn-primary" onclick="login()">Enter</button>
+            <button class="btn" onclick="login()">Enter</button>
             
             <div class="password-hint">
                 管理者: admin123 | コース1: course1 | コース2: course2 | コース3: course3
             </div>
         </div>
+    </div>
 
-        <!-- 管理者エディター -->
-        <div class="editor-container" id="editorContainer">
-            <h2 class="editor-title">TIPS Level Editor Enhanced</h2>
-            <div class="status-indicator">
-                🟢 GitHub Issues API 接続済み - オンライン保存有効 - インライン画像対応
-            </div>
-
-            <div class="editor-section">
-                <h3 class="section-title">記事情報</h3>
-                <div class="form-group">
-                    <label for="articleTitle">記事タイトル</label>
-                    <input type="text" id="articleTitle" placeholder="記事のタイトルを入力してください" />
-                </div>
-                <div class="form-group">
-                    <label for="courseSelect">対象コース</label>
-                    <select id="courseSelect">
-                        <option value="course1">コース1: 基礎編</option>
-                        <option value="course2">コース2: 応用編</option>
-                        <option value="course3">コース3: 上級編</option>
-                    </select>
-                </div>
-            </div>
-
-            <div class="editor-section">
-                <h3 class="section-title">記事内容</h3>
-                <div class="toolbar">
-                    <button class="toolbar-btn" onclick="formatText('bold')">太字</button>
-                    <button class="toolbar-btn" onclick="formatText('italic')">斜体</button>
-                    <button class="toolbar-btn" onclick="formatText('underline')">下線</button>
-                    <button class="toolbar-btn red" onclick="formatColor('red')">赤</button>
-                    <button class="toolbar-btn blue" onclick="formatColor('blue')">青</button>
-                    <button class="toolbar-btn" onclick="resetFormat()">リセット</button>
-                    <button class="toolbar-btn" onclick="document.getElementById('imageUpload').click()">📷 画像選択</button>
-                    <button class="toolbar-btn" onclick="insertYouTube()">📺 YouTube</button>
-                </div>
-                
-                <input type="file" id="imageUpload" class="image-upload-input" accept="image/*" onchange="handleImageUpload(event)" />
-                
-                <div class="drop-zone" onclick="document.getElementById('imageUpload').click()">
-                    📷 画像をここにドラッグ&ドロップ または クリックして選択
-                    <br><small>テキスト内の任意の位置にも直接ドラッグできます</small>
-                </div>
-                
-                <div class="content-editor" id="contentEditor" contenteditable="true" 
-                     ondrop="handleDrop(event)" ondragover="handleDragOver(event)" ondragleave="handleDragLeave(event)"
-                     oninput="updateCharCount()" onpaste="handlePaste(event)">
-                </div>
-                <div class="drag-overlay" id="dragOverlay">
-                    📷 ここに画像をドロップしてください
-                </div>
-                <div class="char-counter" id="charCounter">0 文字</div>
-            </div>
-
-            <div class="action-buttons">
-                <button class="btn" onclick="saveToGitHub()">GitHub Issues に保存</button>
-                <button class="btn" onclick="previewArticle()">プレビュー</button>
-                <button class="btn" onclick="newArticle()">新規作成</button>
-                <button class="btn" onclick="showArticleList()">記事一覧</button>
+    <!-- 管理者エディター画面 -->
+    <div class="editor-container" id="adminEditor">
+        <div class="editor-header">
+            <h2 class="editor-title">TIPS Level Editor Vercel版</h2>
+            <div class="status-indicator">🟢 Vercel API 接続済み - 完全自動保存 - インライン画像対応</div>
+            <div style="margin-top: 1rem;">
+                <button class="btn" onclick="logout()">管理者 - ログアウト</button>
             </div>
         </div>
 
-        <!-- 受講生画面 -->
-        <div class="student-container" id="studentContainer">
-            <h2 class="editor-title">コース記事一覧</h2>
-            <div class="course-header" id="courseHeader">
-                <div class="course-title" id="courseTitle">コース1: 基礎編</div>
-                <div class="course-description" id="courseDescription">恋愛の基本的な考え方とアプローチ方法を学びます</div>
+        <div class="article-info">
+            <h3>記事情報</h3>
+            <div class="form-group">
+                <label for="articleTitle">記事タイトル</label>
+                <input type="text" id="articleTitle" placeholder="記事のタイトルを入力してください">
             </div>
-            <div class="articles-grid" id="articlesGrid">
-                <div class="error-message">記事の読み込みに失敗しました<br><small>エラー: 記事の取得に失敗 - 401</small></div>
+            <div class="form-group">
+                <label for="courseSelect">対象コース</label>
+                <select id="courseSelect">
+                    <option value="course1">コース1: 基礎編</option>
+                    <option value="course2">コース2: 応用編</option>
+                    <option value="course3">コース3: 上級編</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="article-info">
+            <h3>記事内容</h3>
+            <div class="toolbar">
+                <button onclick="formatText('bold')">太字</button>
+                <button onclick="formatText('italic')">斜体</button>
+                <button onclick="formatText('underline')">下線</button>
+                <button onclick="formatText('red')">赤</button>
+                <button onclick="formatText('blue')">青</button>
+                <button onclick="resetEditor()">リセット</button>
+                <button onclick="insertImage()">📷 画像選択</button>
+                <button onclick="insertYouTube()">📺 YouTube</button>
+            </div>
+            
+            <div class="drop-zone" id="dropZone">
+                📷 画像をここにドラッグ&ドロップ または クリックして選択<br>
+                テキスト内の任意の位置にも直接ドラッグできます
+            </div>
+            
+            <div class="content-editor" id="contentEditor" contenteditable="true"></div>
+            <div class="char-counter" id="charCounter">0 文字</div>
+        </div>
+
+        <div class="action-buttons">
+            <button class="btn" onclick="saveToVercel()">Vercel API で保存</button>
+            <button class="btn" onclick="previewArticle()">プレビュー</button>
+            <button class="btn" onclick="newArticle()">新規作成</button>
+            <button class="btn" onclick="listArticles()">記事一覧</button>
+        </div>
+    </div>
+
+    <!-- 受講生画面 -->
+    <div class="student-container" id="studentScreen">
+        <div class="container">
+            <div class="course-info">
+                <h2 class="course-title" id="courseTitle">コース情報</h2>
+                <p id="courseDescription">コースの説明</p>
+                <button class="btn" onclick="logout()">ログアウト</button>
+            </div>
+            <div class="articles-list" id="articlesList">
+                <p>記事を読み込み中...</p>
             </div>
         </div>
     </div>
 
     <script>
-        const GITHUB_TOKEN = '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';
-        const GITHUB_REPO = 'ICHIJO-999/love';
-        let currentUser = null;
-        let currentCourse = null;
+        let currentMode = 'login';
 
         function login() {
             const password = document.getElementById('password').value;
-            const loginContainer = document.getElementById('loginContainer');
-            const editorContainer = document.getElementById('editorContainer');
-            const studentContainer = document.getElementById('studentContainer');
-            const userInfo = document.getElementById('userInfo');
-
+            
             if (password === 'admin123') {
-                currentUser = 'admin';
-                loginContainer.style.display = 'none';
-                editorContainer.style.display = 'block';
-                userInfo.style.display = 'block';
-                userInfo.textContent = '管理者 - GitHub連携エディター';
-            } else if (['course1', 'course2', 'course3'].includes(password)) {
-                currentUser = 'student';
-                currentCourse = password;
-                loginContainer.style.display = 'none';
-                studentContainer.style.display = 'block';
-                userInfo.style.display = 'block';
-                userInfo.textContent = `コース${password.slice(-1)}: ${getCourseInfo(password).name}受講生`;
-                loadStudentView(password);
+                currentMode = 'admin';
+                showAdminEditor();
+            } else if (password === 'course1') {
+                currentMode = 'student';
+                showStudentScreen('course1', 'コース1: 基礎編', '恋愛の基本的な考え方とアプローチ方法を学びます');
+            } else if (password === 'course2') {
+                currentMode = 'student';
+                showStudentScreen('course2', 'コース2: 応用編', '実践的な恋愛テクニックと心理学を学びます');
+            } else if (password === 'course3') {
+                currentMode = 'student';
+                showStudentScreen('course3', 'コース3: 上級編', '高度な恋愛戦略と長期的な関係構築を学びます');
             } else {
                 alert('パスワードが正しくありません');
             }
         }
 
-        function getCourseInfo(course) {
-            const courses = {
-                'course1': { name: '基礎編', description: '恋愛の基本的な考え方とアプローチ方法を学びます' },
-                'course2': { name: '応用編', description: '実践的なコミュニケーション技術と関係構築を学びます' },
-                'course3': { name: '上級編', description: '長期的な関係維持と深い絆の築き方を学びます' }
-            };
-            return courses[course] || courses['course1'];
+        function showAdminEditor() {
+            document.getElementById('loginScreen').style.display = 'none';
+            document.getElementById('adminEditor').style.display = 'block';
+            document.getElementById('studentScreen').style.display = 'none';
+            setupEditor();
         }
 
-        function loadStudentView(course) {
-            const courseInfo = getCourseInfo(course);
-            document.getElementById('courseTitle').textContent = `コース${course.slice(-1)}: ${courseInfo.name}`;
-            document.getElementById('courseDescription').textContent = courseInfo.description;
+        function showStudentScreen(course, title, description) {
+            document.getElementById('loginScreen').style.display = 'none';
+            document.getElementById('adminEditor').style.display = 'none';
+            document.getElementById('studentScreen').style.display = 'block';
+            
+            document.getElementById('courseTitle').textContent = title;
+            document.getElementById('courseDescription').textContent = description;
+            
             loadArticles(course);
         }
 
-        async function loadArticles(course) {
-            try {
-                const response = await fetch(`https://api.github.com/repos/${GITHUB_REPO}/issues?labels=article,course:${course}&state=open`, {
-                    headers: { 'Authorization': `token ${GITHUB_TOKEN}` }
-                });
-                
-                if (!response.ok) throw new Error(`HTTP ${response.status}`);
-                
-                const articles = await response.json();
-                displayArticles(articles);
-            } catch (error) {
-                document.getElementById('articlesGrid').innerHTML = 
-                    `<div class="error-message">記事の読み込みに失敗しました<br><small>エラー: ${error.message}</small></div>`;
+        function logout() {
+            currentMode = 'login';
+            document.getElementById('loginScreen').style.display = 'block';
+            document.getElementById('adminEditor').style.display = 'none';
+            document.getElementById('studentScreen').style.display = 'none';
+            document.getElementById('password').value = '';
+        }
+
+        function setupEditor() {
+            const editor = document.getElementById('contentEditor');
+            const counter = document.getElementById('charCounter');
+            
+            editor.addEventListener('input', () => {
+                counter.textContent = editor.textContent.length + ' 文字';
+            });
+
+            // ドラッグ&ドロップ機能
+            const dropZone = document.getElementById('dropZone');
+            
+            dropZone.addEventListener('dragover', (e) => {
+                e.preventDefault();
+                dropZone.style.borderColor = '#ff1493';
+                dropZone.style.background = 'rgba(255,20,147,0.2)';
+            });
+            
+            dropZone.addEventListener('dragleave', () => {
+                dropZone.style.borderColor = 'rgba(255,20,147,0.5)';
+                dropZone.style.background = 'rgba(255,20,147,0.05)';
+            });
+            
+            dropZone.addEventListener('drop', (e) => {
+                e.preventDefault();
+                handleImageDrop(e);
+                dropZone.style.borderColor = 'rgba(255,20,147,0.5)';
+                dropZone.style.background = 'rgba(255,20,147,0.05)';
+            });
+
+            // エディター内でのドラッグ&ドロップ
+            editor.addEventListener('dragover', (e) => {
+                e.preventDefault();
+            });
+            
+            editor.addEventListener('drop', (e) => {
+                e.preventDefault();
+                handleImageDrop(e);
+            });
+        }
+
+        function formatText(format) {
+            const editor = document.getElementById('contentEditor');
+            editor.focus();
+            
+            switch(format) {
+                case 'bold':
+                    document.execCommand('bold');
+                    break;
+                case 'italic':
+                    document.execCommand('italic');
+                    break;
+                case 'underline':
+                    document.execCommand('underline');
+                    break;
+                case 'red':
+                    document.execCommand('foreColor', false, 'red');
+                    break;
+                case 'blue':
+                    document.execCommand('foreColor', false, 'blue');
+                    break;
             }
         }
 
-        function displayArticles(articles) {
-            const grid = document.getElementById('articlesGrid');
-            if (articles.length === 0) {
-                grid.innerHTML = '<div class="error-message">まだ記事がありません</div>';
-                return;
+        function resetEditor() {
+            document.getElementById('contentEditor').innerHTML = '';
+            document.getElementById('charCounter').textContent = '0 文字';
+        }
+
+        function insertImage() {
+            const input = document.createElement('input');
+            input.type = 'file';
+            input.accept = 'image/*';
+            input.onchange = (e) => {
+                const file = e.target.files[0];
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = (e) => {
+                        const img = `<img src="${e.target.result}" style="max-width: 100%; height: auto; margin: 10px 0; border-radius: 8px;">`;
+                        document.execCommand('insertHTML', false, img);
+                        updateCharCount();
+                    };
+                    reader.readAsDataURL(file);
+                }
+            };
+            input.click();
+        }
+
+        function insertYouTube() {
+            const url = prompt('YouTubeのURLを入力してください:');
+            if (url) {
+                const videoId = extractYouTubeId(url);
+                if (videoId) {
+                    const iframe = `<iframe width="560" height="315" src="https://www.youtube.com/embed/${videoId}" frameborder="0" allowfullscreen style="max-width: 100%; margin: 10px 0; border-radius: 8px;"></iframe>`;
+                    document.execCommand('insertHTML', false, iframe);
+                    updateCharCount();
+                } else {
+                    alert('有効なYouTubeのURLを入力してください');
+                }
             }
-
-            grid.innerHTML = articles.map(article => {
-                const content = article.body || '';
-                const preview = content.replace(/<[^>]*>/g, '').substring(0, 150) + '...';
-                return `
-                    <div class="article-card" onclick="viewArticle(${article.number})">
-                        <div class="article-title">${article.title}</div>
-                        <div class="article-meta">
-                            作成日: ${new Date(article.created_at).toLocaleDateString('ja-JP')} | 
-                            コース: ${article.labels.find(l => l.name.startsWith('course:'))?.name.replace('course:', '') || 'N/A'} |
-                            エディター: ${article.labels.find(l => l.name === 'tips-editor') ? 'TIPS Level Editor' : 'Standard'}
-                        </div>
-                        <div class="article-preview">${preview}</div>
-                    </div>
-                `;
-            }).join('');
         }
 
-        function viewArticle(number) {
-            alert(`記事 #${number} の詳細表示機能は実装予定です`);
+        function extractYouTubeId(url) {
+            const regex = /(?:youtube\.com\/watch\?v=|youtu\.be\/)([^&\n?#]+)/;
+            const match = url.match(regex);
+            return match ? match[1] : null;
         }
 
-        // エディター機能
-        function formatText(command) {
-            document.execCommand(command, false, null);
-            document.getElementById('contentEditor').focus();
-        }
-
-        function formatColor(color) {
-            document.execCommand('foreColor', false, color);
-            document.getElementById('contentEditor').focus();
-        }
-
-        function resetFormat() {
-            document.execCommand('removeFormat', false, null);
-            document.getElementById('contentEditor').focus();
+        function handleImageDrop(e) {
+            const files = e.dataTransfer.files;
+            if (files.length > 0) {
+                const file = files[0];
+                if (file.type.startsWith('image/')) {
+                    const reader = new FileReader();
+                    reader.onload = (e) => {
+                        const img = `<img src="${e.target.result}" style="max-width: 100%; height: auto; margin: 10px 0; border-radius: 8px;">`;
+                        
+                        // カーソル位置に挿入
+                        const selection = window.getSelection();
+                        if (selection.rangeCount > 0) {
+                            const range = selection.getRangeAt(0);
+                            range.deleteContents();
+                            const imgElement = document.createElement('div');
+                            imgElement.innerHTML = img;
+                            range.insertNode(imgElement.firstChild);
+                        } else {
+                            document.getElementById('contentEditor').innerHTML += img;
+                        }
+                        updateCharCount();
+                    };
+                    reader.readAsDataURL(file);
+                }
+            }
         }
 
         function updateCharCount() {
@@ -410,189 +415,44 @@
             counter.textContent = editor.textContent.length + ' 文字';
         }
 
-        // 画像処理機能（強化版）
-        function handleImageUpload(event) {
-            const file = event.target.files[0];
-            if (file && file.type.startsWith('image/')) {
-                insertImageAtCursor(file);
-            }
-        }
-
-        function insertImageAtCursor(file) {
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                const img = document.createElement('img');
-                img.src = e.target.result;
-                img.style.maxWidth = '100%';
-                img.style.height = 'auto';
-                img.style.borderRadius = '8px';
-                img.style.margin = '10px 0';
-                img.style.cursor = 'pointer';
-                img.onclick = function() { showImageControls(this); };
-
-                // カーソル位置に挿入
-                const selection = window.getSelection();
-                if (selection.rangeCount > 0) {
-                    const range = selection.getRangeAt(0);
-                    range.deleteContents();
-                    range.insertNode(img);
-                    range.setStartAfter(img);
-                    range.setEndAfter(img);
-                    selection.removeAllRanges();
-                    selection.addRange(range);
-                } else {
-                    // カーソルがない場合は末尾に追加
-                    document.getElementById('contentEditor').appendChild(img);
-                }
-                
-                updateCharCount();
-            };
-            reader.readAsDataURL(file);
-        }
-
-        function handleDragOver(event) {
-            event.preventDefault();
-            event.stopPropagation();
-            document.getElementById('dragOverlay').style.display = 'flex';
-        }
-
-        function handleDragLeave(event) {
-            event.preventDefault();
-            event.stopPropagation();
-            document.getElementById('dragOverlay').style.display = 'none';
-        }
-
-        function handleDrop(event) {
-            event.preventDefault();
-            event.stopPropagation();
-            document.getElementById('dragOverlay').style.display = 'none';
-
-            const files = event.dataTransfer.files;
-            if (files.length > 0 && files[0].type.startsWith('image/')) {
-                // ドロップ位置にカーソルを設定
-                const range = document.caretRangeFromPoint(event.clientX, event.clientY);
-                if (range) {
-                    const selection = window.getSelection();
-                    selection.removeAllRanges();
-                    selection.addRange(range);
-                }
-                insertImageAtCursor(files[0]);
-            }
-        }
-
-        function handlePaste(event) {
-            const items = event.clipboardData.items;
-            for (let item of items) {
-                if (item.type.startsWith('image/')) {
-                    event.preventDefault();
-                    const file = item.getAsFile();
-                    insertImageAtCursor(file);
-                    break;
-                }
-            }
-        }
-
-        function showImageControls(img) {
-            const controls = document.createElement('div');
-            controls.className = 'image-size-controls';
-            controls.innerHTML = `
-                <button onclick="resizeImage(this.parentNode.previousSibling, 'small')">小</button>
-                <button onclick="resizeImage(this.parentNode.previousSibling, 'medium')">中</button>
-                <button onclick="resizeImage(this.parentNode.previousSibling, 'large')">大</button>
-                <button onclick="removeImage(this.parentNode.previousSibling)">削除</button>
-                <button onclick="this.parentNode.remove()">閉じる</button>
-            `;
-            
-            // 既存のコントロールを削除
-            const existingControls = document.querySelector('.image-size-controls');
-            if (existingControls) existingControls.remove();
-            
-            img.parentNode.insertBefore(controls, img.nextSibling);
-            controls.style.display = 'block';
-        }
-
-        function resizeImage(img, size) {
-            const sizes = {
-                'small': '30%',
-                'medium': '60%',
-                'large': '100%'
-            };
-            img.style.maxWidth = sizes[size];
-            document.querySelector('.image-size-controls').remove();
-        }
-
-        function removeImage(img) {
-            img.remove();
-            document.querySelector('.image-size-controls').remove();
-            updateCharCount();
-        }
-
-        function insertYouTube() {
-            const url = prompt('YouTube動画のURLを入力してください:');
-            if (url) {
-                const videoId = extractYouTubeId(url);
-                if (videoId) {
-                    const iframe = document.createElement('iframe');
-                    iframe.src = `https://www.youtube.com/embed/${videoId}`;
-                    iframe.width = '100%';
-                    iframe.height = '315';
-                    iframe.frameBorder = '0';
-                    iframe.allowFullscreen = true;
-                    iframe.style.borderRadius = '8px';
-                    iframe.style.margin = '10px 0';
-                    
-                    const selection = window.getSelection();
-                    if (selection.rangeCount > 0) {
-                        const range = selection.getRangeAt(0);
-                        range.insertNode(iframe);
-                    } else {
-                        document.getElementById('contentEditor').appendChild(iframe);
-                    }
-                    updateCharCount();
-                } else {
-                    alert('有効なYouTube URLを入力してください');
-                }
-            }
-        }
-
-        function extractYouTubeId(url) {
-            const regex = /(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/embed\/)([^&\n?#]+)/;
-            const match = url.match(regex);
-            return match ? match[1] : null;
-        }
-
-        async function saveToGitHub() {
+        async function saveToVercel() {
             const title = document.getElementById('articleTitle').value;
             const content = document.getElementById('contentEditor').innerHTML;
             const course = document.getElementById('courseSelect').value;
-
+            
             if (!title || !content) {
                 alert('タイトルと内容を入力してください');
                 return;
             }
 
             try {
-                const response = await fetch(`https://api.github.com/repos/${GITHUB_REPO}/issues`, {
+                const response = await fetch('/api/github', {
                     method: 'POST',
                     headers: {
-                        'Authorization': `token ${GITHUB_TOKEN}`,
-                        'Content-Type': 'application/json'
+                        'Content-Type': 'application/json',
                     },
                     body: JSON.stringify({
                         title: title,
-                        body: content,
-                        labels: ['article', `course:${course}`, 'tips-editor', 'enhanced-editor']
+                        content: content,
+                        course: course
                     })
                 });
 
-                if (response.ok) {
-                    alert('記事が正常に保存されました！');
-                    newArticle();
+                const result = await response.json();
+                
+                if (result.success) {
+                    alert(`記事が正常に保存されました！\nIssue #${result.issueNumber}\n${result.url}`);
+                    // エディターをクリア
+                    document.getElementById('articleTitle').value = '';
+                    document.getElementById('contentEditor').innerHTML = '';
+                    document.getElementById('charCounter').textContent = '0 文字';
                 } else {
-                    throw new Error(`保存に失敗しました: ${response.status}`);
+                    alert('保存に失敗しました: ' + result.error);
+                    console.error('Save error:', result);
                 }
             } catch (error) {
-                alert(`エラー: ${error.message}`);
+                console.error('Save error:', error);
+                alert('保存中にエラーが発生しました: ' + error.message);
             }
         }
 
@@ -600,16 +460,24 @@
             const title = document.getElementById('articleTitle').value;
             const content = document.getElementById('contentEditor').innerHTML;
             
+            if (!title || !content) {
+                alert('タイトルと内容を入力してください');
+                return;
+            }
+            
             const previewWindow = window.open('', '_blank');
             previewWindow.document.write(`
                 <html>
                 <head>
-                    <title>${title} - プレビュー</title>
+                    <title>${title}</title>
                     <style>
-                        body { font-family: "Hiragino Sans", sans-serif; max-width: 800px; margin: 0 auto; padding: 2rem; line-height: 1.6; }
-                        h1 { color: #ff1493; border-bottom: 2px solid #ff1493; padding-bottom: 0.5rem; }
-                        img { max-width: 100%; height: auto; border-radius: 8px; margin: 10px 0; }
-                        iframe { max-width: 100%; border-radius: 8px; margin: 10px 0; }
+                        body { 
+                            font-family: Arial, sans-serif; max-width: 800px; margin: 0 auto; padding: 2rem;
+                            background: #000; color: #fff;
+                        }
+                        h1 { color: #ff1493; }
+                        img { max-width: 100%; height: auto; border-radius: 8px; }
+                        iframe { max-width: 100%; }
                     </style>
                 </head>
                 <body>
@@ -621,19 +489,66 @@
         }
 
         function newArticle() {
-            document.getElementById('articleTitle').value = '';
-            document.getElementById('contentEditor').innerHTML = '';
-            document.getElementById('courseSelect').value = 'course1';
-            updateCharCount();
+            if (confirm('現在の内容をクリアして新しい記事を作成しますか？')) {
+                document.getElementById('articleTitle').value = '';
+                document.getElementById('contentEditor').innerHTML = '';
+                document.getElementById('charCounter').textContent = '0 文字';
+            }
         }
 
-        function showArticleList() {
-            alert('記事一覧機能は実装予定です');
+        async function listArticles() {
+            try {
+                const response = await fetch('https://api.github.com/repos/ICHIJO-999/love/issues?labels=article');
+                const issues = await response.json();
+                
+                let articlesList = '記事一覧:\n\n';
+                issues.forEach((issue, index) => {
+                    articlesList += `${index + 1}. ${issue.title} (Issue #${issue.number})\n`;
+                });
+                
+                alert(articlesList);
+            } catch (error) {
+                alert('記事一覧の取得に失敗しました');
+            }
         }
 
-        // 初期化
-        document.addEventListener('DOMContentLoaded', function() {
-            updateCharCount();
+        async function loadArticles(course) {
+            try {
+                const response = await fetch(`https://api.github.com/repos/ICHIJO-999/love/issues?labels=article,course:${course}`);
+                const issues = await response.json();
+                
+                const articlesList = document.getElementById('articlesList');
+                
+                if (issues.length === 0) {
+                    articlesList.innerHTML = '<p>このコースの記事はまだありません。</p>';
+                    return;
+                }
+                
+                articlesList.innerHTML = '';
+                issues.forEach(issue => {
+                    const articleCard = document.createElement('div');
+                    articleCard.className = 'article-card';
+                    articleCard.innerHTML = `
+                        <h4>${issue.title}</h4>
+                        <div class="article-meta">
+                            作成日: ${new Date(issue.created_at).toLocaleDateString('ja-JP')} | 
+                            コース: ${course} | 
+                            エディター: TIPS Level Editor Vercel版
+                        </div>
+                        <div class="article-content">${issue.body.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')}</div>
+                    `;
+                    articlesList.appendChild(articleCard);
+                });
+            } catch (error) {
+                document.getElementById('articlesList').innerHTML = '<p>記事の読み込みに失敗しました。</p>';
+            }
+        }
+
+        // Enterキーでログイン
+        document.getElementById('password').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                login();
+            }
         });
     </script>
 </body>

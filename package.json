@@ -1,0 +1,16 @@
+{
+  "name": "the-secret-vercel",
+  "version": "1.0.0",
+  "description": "THE secret 統合サイト Vercel版",
+  "main": "index.html",
+  "scripts": {
+    "dev": "vercel dev",
+    "build": "echo 'Static site - no build needed'",
+    "start": "vercel dev"
+  },
+  "dependencies": {},
+  "devDependencies": {},
+  "engines": {
+    "node": ">=14"
+  }
+}
