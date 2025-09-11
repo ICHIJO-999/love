@@ -14,14 +14,15 @@ const api = axios.create({
 export const authAPI = {
   login: (credentials) => {
     // モック実装：テスト用ログイン
-    if (credentials.username === 'testuser' && credentials.password === 'password') {
+    if ((credentials.username === 'testuser' && credentials.password === 'password') ||
+        (credentials.username === 'admin' && credentials.password === 'admin123')) {
       return Promise.resolve({
         data: {
           success: true,
           user: {
             id: 1,
-            username: 'testuser',
-            email: 'test@example.com',
+            username: credentials.username,
+            email: credentials.username === 'admin' ? 'admin@example.com' : 'test@example.com',
             role: 'admin',
             course: 'course1'
           },

@@ -4,12 +4,12 @@ import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Textarea } from '@/components/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Badge } from '@/components/ui/badge';
 import { useAuth } from '@/hooks/useAuth';
-import { Edit3, FileText, Video, Save, Eye, Plus, Github, Key, CheckCircle, AlertCircle } from 'lucide-react';
+import { Edit3, FileText, Video, Save, Eye, Plus, Github, Key, CheckCircle, AlertCircle, Zap } from 'lucide-react';
+import TipsLevelEditor from '@/components/TipsLevelEditor';
 
 export default function AdminEditor() {
   const { user } = useAuth();
@@ -86,12 +86,15 @@ export default function AdminEditor() {
         {/* ヘッダー */}
         <div className="flex items-center justify-between">
           <div>
-            <h1 className="text-3xl font-bold text-white mb-2">管理者パネル</h1>
-            <p className="text-gray-300">記事と動画の管理を行います</p>
+            <h1 className="text-3xl font-bold text-white mb-2 flex items-center gap-3">
+              <Zap className="h-8 w-8 text-pink-400" />
+              TIPS レベル 管理者パネル
+            </h1>
+            <p className="text-gray-300">高度なエディター機能で記事と動画の管理を行います</p>
           </div>
           <div className="flex gap-2">
             <Badge variant="outline" className="border-pink-500 text-pink-400">
-              管理者モード
+              TIPS レベル
             </Badge>
             <Badge variant="outline" className="border-green-500 text-green-400">
               {user.username}
@@ -166,7 +169,7 @@ export default function AdminEditor() {
           <TabsList className="bg-gray-800 border-pink-500/20">
             <TabsTrigger value="editor" className="data-[state=active]:bg-pink-600">
               <Edit3 className="h-4 w-4 mr-2" />
-              記事エディター
+              TIPS エディター
             </TabsTrigger>
             <TabsTrigger value="articles" className="data-[state=active]:bg-pink-600">
               <FileText className="h-4 w-4 mr-2" />
@@ -183,11 +186,11 @@ export default function AdminEditor() {
             <Card className="bg-gray-900 border-pink-500/20">
               <CardHeader>
                 <CardTitle className="text-white flex items-center gap-2">
-                  <Edit3 className="h-5 w-5 text-pink-400" />
-                  記事エディター
+                  <Zap className="h-5 w-5 text-pink-400" />
+                  TIPS レベル エディター
                 </CardTitle>
                 <CardDescription className="text-gray-400">
-                  新しい記事を作成・編集します
+                  高度な機能を持つエディターで記事を作成・編集します
                 </CardDescription>
               </CardHeader>
               <CardContent className="space-y-6">
@@ -231,18 +234,14 @@ export default function AdminEditor() {
                   </div>
                 </div>
 
-                {/* エディター */}
+                {/* TIPS レベル エディター */}
                 <div className="space-y-4">
                   <Label className="text-white">記事内容</Label>
-                  <Textarea
-                    value={articleContent}
-                    onChange={(e) => setArticleContent(e.target.value)}
+                  <TipsLevelEditor
+                    content={articleContent}
+                    onChange={setArticleContent}
                     placeholder="記事の内容を入力してください..."
-                    className="bg-gray-800 border-gray-600 text-white min-h-[400px]"
                   />
-                  <div className="text-sm text-gray-400">
-                    文字数: {articleContent.length}
-                  </div>
                 </div>
 
                 {/* アクションボタン */}
@@ -306,20 +305,25 @@ export default function AdminEditor() {
             {/* エディター機能説明 */}
             <Card className="bg-gray-900 border-pink-500/20">
               <CardHeader>
-                <CardTitle className="text-white">シンプル エディター機能</CardTitle>
+                <CardTitle className="text-white flex items-center gap-2">
+                  <Zap className="h-5 w-5 text-pink-400" />
+                  TIPS レベル エディター機能
+                </CardTitle>
                 <CardDescription className="text-gray-400">
-                  GitHub Issues APIによる永続的記事保存
+                  高度なエディター機能とGitHub Issues APIによる永続的記事保存
                 </CardDescription>
               </CardHeader>
               <CardContent>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm text-gray-300">
                   <div>
-                    <h4 className="font-semibold text-pink-400 mb-2">基本機能</h4>
+                    <h4 className="font-semibold text-pink-400 mb-2">エディター機能</h4>
                     <ul className="space-y-1">
-                      <li>• 記事タイトル・内容入力</li>
-                      <li>• コース別分類</li>
-                      <li>• 公開状態管理</li>
-                      <li>• 文字数カウンター</li>
+                      <li>• ブロック単位での編集</li>
+                      <li>• 赤・青の文字色ボタン</li>
+                      <li>• 画像ドラッグ&ドロップ</li>
+                      <li>• ファイル選択ダイアログ</li>
+                      <li>• 見出し・引用・コード</li>
+                      <li>• リアルタイム文字数カウント</li>
                     </ul>
                   </div>
                   <div>
@@ -329,6 +333,8 @@ export default function AdminEditor() {
                       <li>• Issues APIによる管理</li>
                       <li>• コース別ラベル分類</li>
                       <li>• 公開状態管理</li>
+                      <li>• バージョン管理</li>
+                      <li>• 無料で利用可能</li>
                     </ul>
                   </div>
                 </div>
