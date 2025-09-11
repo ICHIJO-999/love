@@ -1,13 +1,7 @@
 {
   "functions": {
-    "api/github.js": {
-      "runtime": "nodejs20.x"
+    "api/*.js": {
+      "runtime": "nodejs18.x"
     }
-  },
-  "rewrites": [
-    {
-      "source": "/api/github",
-      "destination": "/api/github.js"
-    }
-  ]
+  }
 }
