@@ -5,961 +5,104 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>THE secret - 統合サイト</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
-            font-family: 'Hiragino Sans', 'ヒラギノ角ゴ Pro W3', 'メイリオ', Meiryo, sans-serif;
-            line-height: 1.6;
-            color: #fff;
-            background: #000;
-            min-height: 100vh;
-            overflow-x: hidden;
+            font-family: "Hiragino Sans", sans-serif;
+            background: #000; color: #fff; min-height: 100vh;
         }
-
-        /* 背景エフェクト */
         body::before {
-            content: '';
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: radial-gradient(circle at 50% 50%, rgba(255, 20, 147, 0.1) 0%, rgba(0, 0, 0, 0.8) 50%, #000 100%);
+            content: ""; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: radial-gradient(circle, rgba(255,20,147,0.1) 0%, rgba(0,0,0,0.8) 50%, #000 100%);
             z-index: -1;
         }
-
-        /* ヘッダー */
-        .header {
-            background: rgba(0, 0, 0, 0.9);
-            border-bottom: 1px solid rgba(255, 20, 147, 0.3);
-            padding: 1rem 0;
-            position: fixed;
-            width: 100%;
-            top: 0;
-            z-index: 1000;
-            backdrop-filter: blur(10px);
+        .container {
+            max-width: 800px; margin: 0 auto; padding: 2rem;
+            text-align: center; min-height: 100vh; display: flex;
+            flex-direction: column; justify-content: center;
         }
-
-        .header-content {
-            max-width: 1200px;
-            margin: 0 auto;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 0 2rem;
-        }
-
         .logo {
-            font-size: 2.5rem;
-            font-weight: bold;
-            color: #fff;
-            text-decoration: none;
-            text-shadow: 0 0 20px rgba(255, 20, 147, 0.8);
-            letter-spacing: 2px;
+            font-size: 4rem; font-weight: bold; margin-bottom: 2rem;
+            text-shadow: 0 0 30px rgba(255,20,147,0.8); letter-spacing: 3px;
         }
-
-        .user-info {
-            font-size: 0.9rem;
-            color: rgba(255, 255, 255, 0.8);
-            text-shadow: 0 0 10px rgba(255, 20, 147, 0.5);
+        .subtitle {
+            font-size: 1.5rem; margin-bottom: 3rem;
+            color: rgba(255,255,255,0.8); text-shadow: 0 0 10px rgba(255,20,147,0.3);
         }
-
-        /* メインコンテンツ */
-        .main-content {
-            padding-top: 100px;
-            min-height: 100vh;
-            padding-bottom: 2rem;
+        .info-box {
+            background: rgba(0,0,0,0.8); border: 1px solid rgba(255,20,147,0.3);
+            border-radius: 20px; padding: 3rem; margin: 2rem 0;
+            box-shadow: 0 0 50px rgba(255,20,147,0.2);
         }
-
-        /* ログインセクション */
-        .login-section {
-            background: rgba(0, 0, 0, 0.8);
-            border: 1px solid rgba(255, 20, 147, 0.3);
-            border-radius: 20px;
-            padding: 3rem;
-            max-width: 500px;
-            width: 90%;
-            margin: 2rem auto;
-            text-align: center;
-            box-shadow: 0 0 50px rgba(255, 20, 147, 0.2);
-            backdrop-filter: blur(20px);
+        .feature-list {
+            list-style: none; text-align: left; margin: 2rem 0;
         }
-
-        .login-title {
-            font-size: 3rem;
-            font-weight: bold;
-            margin-bottom: 1rem;
-            color: #fff;
-            text-shadow: 0 0 30px rgba(255, 20, 147, 0.8);
-            letter-spacing: 3px;
+        .feature-list li {
+            padding: 0.5rem 0; color: rgba(255,255,255,0.9);
         }
-
-        .login-subtitle {
-            font-size: 1.2rem;
-            margin-bottom: 2rem;
-            color: rgba(255, 255, 255, 0.8);
-            text-shadow: 0 0 10px rgba(255, 20, 147, 0.3);
+        .feature-list li::before {
+            content: "✨ "; color: #ff1493;
         }
-
-        .form-group {
-            margin-bottom: 1.5rem;
-            text-align: left;
+        .btn {
+            display: inline-block; padding: 1rem 2rem; margin: 0.5rem;
+            background: linear-gradient(45deg, rgba(255,20,147,0.6), rgba(255,20,147,0.4));
+            border: none; border-radius: 10px; color: #fff; text-decoration: none;
+            font-weight: bold; transition: all 0.3s ease;
         }
-
-        .form-label {
-            display: block;
-            margin-bottom: 0.5rem;
-            color: rgba(255, 255, 255, 0.9);
-            font-weight: 500;
-            text-shadow: 0 0 5px rgba(255, 20, 147, 0.3);
+        .btn:hover {
+            background: linear-gradient(45deg, rgba(255,20,147,0.8), rgba(255,20,147,0.6));
+            box-shadow: 0 0 20px rgba(255,20,147,0.3); transform: translateY(-2px);
         }
-
-        .form-input {
-            width: 100%;
-            padding: 1rem;
-            border: 1px solid rgba(255, 20, 147, 0.3);
-            border-radius: 10px;
-            background: rgba(0, 0, 0, 0.7);
-            color: #fff;
-            font-size: 1rem;
-            transition: all 0.3s ease;
-        }
-
-        .form-input:focus {
-            outline: none;
-            border-color: rgba(255, 20, 147, 0.8);
-            box-shadow: 0 0 20px rgba(255, 20, 147, 0.3);
-        }
-
-        .login-btn {
-            width: 100%;
-            padding: 1rem;
-            background: linear-gradient(45deg, rgba(255, 20, 147, 0.8), rgba(255, 20, 147, 0.6));
-            border: none;
-            border-radius: 10px;
-            color: #fff;
-            font-size: 1.1rem;
-            font-weight: bold;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            text-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-            box-shadow: 0 0 20px rgba(255, 20, 147, 0.3);
-        }
-
-        .login-btn:hover {
-            background: linear-gradient(45deg, rgba(255, 20, 147, 1), rgba(255, 20, 147, 0.8));
-            box-shadow: 0 0 30px rgba(255, 20, 147, 0.5);
-            transform: translateY(-2px);
-        }
-
-        /* パネル共通スタイル */
-        .panel {
-            background: rgba(0, 0, 0, 0.9);
-            border: 1px solid rgba(255, 20, 147, 0.3);
-            border-radius: 20px;
-            padding: 2rem;
-            margin: 2rem auto;
-            max-width: 1200px;
-            box-shadow: 0 0 50px rgba(255, 20, 147, 0.2);
-        }
-
-        .panel-title {
-            font-size: 2.5rem;
-            text-align: center;
-            margin-bottom: 2rem;
-            color: #fff;
-            text-shadow: 0 0 20px rgba(255, 20, 147, 0.8);
-        }
-
-        /* 管理者エディターパネル */
-        .editor-form {
-            display: grid;
-            gap: 2rem;
-        }
-
-        .form-section {
-            background: rgba(0, 0, 0, 0.7);
-            border: 1px solid rgba(255, 20, 147, 0.3);
-            border-radius: 15px;
-            padding: 2rem;
-        }
-
-        .section-title {
-            font-size: 1.5rem;
-            margin-bottom: 1rem;
-            color: #fff;
-            text-shadow: 0 0 10px rgba(255, 20, 147, 0.5);
-        }
-
-        /* GitHub接続状態 */
-        .github-status {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            margin-bottom: 1rem;
-            padding: 1rem;
-            background: rgba(0, 255, 100, 0.1);
-            border: 1px solid rgba(0, 255, 100, 0.3);
-            border-radius: 10px;
-        }
-
-        .status-indicator {
-            width: 12px;
-            height: 12px;
-            border-radius: 50%;
-            background: #00ff64;
-            box-shadow: 0 0 10px rgba(0, 255, 100, 0.5);
-        }
-
-        /* エディターツールバー */
-        .editor-toolbar {
-            display: flex;
-            gap: 0.5rem;
-            margin-bottom: 1rem;
-            flex-wrap: wrap;
-            align-items: center;
-        }
-
-        .toolbar-btn {
-            padding: 0.5rem 1rem;
-            background: rgba(255, 20, 147, 0.2);
-            border: 1px solid rgba(255, 20, 147, 0.3);
-            border-radius: 8px;
-            color: #fff;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            font-size: 0.9rem;
-        }
-
-        .toolbar-btn:hover {
-            background: rgba(255, 20, 147, 0.4);
-            box-shadow: 0 0 10px rgba(255, 20, 147, 0.3);
-        }
-
-        /* 色ボタン */
-        .color-red {
-            background: rgba(255, 0, 0, 0.6) !important;
-            border-color: rgba(255, 0, 0, 0.8) !important;
-        }
-
-        .color-red:hover {
-            background: rgba(255, 0, 0, 0.8) !important;
-            box-shadow: 0 0 15px rgba(255, 0, 0, 0.4) !important;
-        }
-
-        .color-blue {
-            background: rgba(0, 100, 255, 0.6) !important;
-            border-color: rgba(0, 100, 255, 0.8) !important;
-        }
-
-        .color-blue:hover {
-            background: rgba(0, 100, 255, 0.8) !important;
-            box-shadow: 0 0 15px rgba(0, 100, 255, 0.4) !important;
-        }
-
-        /* エディター本体 */
-        .editor-content {
-            width: 100%;
-            min-height: 400px;
-            padding: 1.5rem;
-            border: 1px solid rgba(255, 20, 147, 0.3);
-            border-radius: 10px;
-            background: rgba(0, 0, 0, 0.5);
-            color: #fff;
-            font-size: 1rem;
-            line-height: 1.6;
-            resize: vertical;
-            transition: all 0.3s ease;
-        }
-
-        .editor-content:focus {
-            outline: none;
-            border-color: rgba(255, 20, 147, 0.8);
-            box-shadow: 0 0 20px rgba(255, 20, 147, 0.3);
-        }
-
-        /* ドラッグ&ドロップエリア */
-        .drop-zone {
-            border: 2px dashed rgba(255, 20, 147, 0.3);
-            border-radius: 10px;
-            padding: 2rem;
-            text-align: center;
-            margin: 1rem 0;
-            transition: all 0.3s ease;
-            background: rgba(255, 20, 147, 0.05);
-        }
-
-        .drop-zone.dragover {
-            border-color: rgba(255, 20, 147, 0.8);
-            background: rgba(255, 20, 147, 0.1);
-            box-shadow: 0 0 20px rgba(255, 20, 147, 0.2);
-        }
-
-        .drop-zone-text {
-            color: rgba(255, 255, 255, 0.7);
-            font-size: 1.1rem;
-        }
-
-        /* 受講生用記事表示 */
-        .articles-container {
-            display: grid;
-            gap: 2rem;
-        }
-
-        .article-card {
-            background: rgba(0, 0, 0, 0.7);
-            border: 1px solid rgba(255, 20, 147, 0.3);
-            border-radius: 15px;
-            padding: 2rem;
-            transition: all 0.3s ease;
-        }
-
-        .article-card:hover {
-            border-color: rgba(255, 20, 147, 0.6);
-            box-shadow: 0 0 20px rgba(255, 20, 147, 0.2);
-        }
-
-        .article-title {
-            font-size: 1.8rem;
-            margin-bottom: 1rem;
-            color: #fff;
-            text-shadow: 0 0 10px rgba(255, 20, 147, 0.5);
-        }
-
-        .article-meta {
-            display: flex;
-            gap: 1rem;
-            margin-bottom: 1rem;
-            font-size: 0.9rem;
-            color: rgba(255, 255, 255, 0.7);
-        }
-
-        .article-content {
-            color: rgba(255, 255, 255, 0.9);
-            line-height: 1.6;
-        }
-
-        /* ボタン */
-        .action-btn {
-            padding: 1rem 2rem;
-            background: linear-gradient(45deg, rgba(255, 20, 147, 0.6), rgba(255, 20, 147, 0.4));
-            border: none;
-            border-radius: 10px;
-            color: #fff;
-            font-size: 1rem;
-            font-weight: bold;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            margin: 0.5rem;
-        }
-
-        .action-btn:hover {
-            background: linear-gradient(45deg, rgba(255, 20, 147, 0.8), rgba(255, 20, 147, 0.6));
-            box-shadow: 0 0 20px rgba(255, 20, 147, 0.3);
-            transform: translateY(-2px);
-        }
-
-        .save-btn {
-            background: linear-gradient(45deg, rgba(0, 255, 100, 0.6), rgba(0, 255, 100, 0.4));
-        }
-
-        .save-btn:hover {
-            background: linear-gradient(45deg, rgba(0, 255, 100, 0.8), rgba(0, 255, 100, 0.6));
-            box-shadow: 0 0 20px rgba(0, 255, 100, 0.3);
-        }
-
-        .logout-btn {
-            background: rgba(255, 255, 255, 0.1);
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            border-radius: 8px;
-            color: #fff;
-            padding: 0.5rem 1rem;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            position: absolute;
-            top: 1rem;
-            right: 2rem;
-        }
-
-        .logout-btn:hover {
-            background: rgba(255, 255, 255, 0.2);
-            box-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
-        }
-
-        /* 文字数カウンター */
-        .char-counter {
-            text-align: right;
-            color: rgba(255, 255, 255, 0.6);
-            font-size: 0.9rem;
-            margin-top: 0.5rem;
-        }
-
-        /* ローディング */
-        .loading {
-            display: inline-block;
-            width: 20px;
-            height: 20px;
-            border: 3px solid rgba(255, 20, 147, 0.3);
-            border-radius: 50%;
-            border-top-color: #ff1493;
-            animation: spin 1s ease-in-out infinite;
-        }
-
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
-
-        /* コース情報表示 */
-        .course-info {
-            background: rgba(255, 20, 147, 0.1);
-            border: 1px solid rgba(255, 20, 147, 0.3);
-            border-radius: 10px;
-            padding: 1rem;
-            margin-bottom: 2rem;
-            text-align: center;
-        }
-
-        .course-name {
-            font-size: 1.5rem;
-            font-weight: bold;
-            color: #ff1493;
-            text-shadow: 0 0 10px rgba(255, 20, 147, 0.5);
-        }
-
-        /* レスポンシブ */
-        @media (max-width: 768px) {
-            .editor-toolbar {
-                justify-content: center;
-            }
-            
-            .panel-title {
-                font-size: 2rem;
-            }
-            
-            .logout-btn {
-                position: static;
-                margin-bottom: 1rem;
-            }
-        }
-
-        /* 非表示クラス */
-        .hidden {
-            display: none !important;
+        .warning {
+            background: rgba(255,100,0,0.1); border: 1px solid rgba(255,100,0,0.3);
+            border-radius: 10px; padding: 1.5rem; margin: 2rem 0;
+            color: rgba(255,255,255,0.9);
         }
     </style>
 </head>
 <body>
-    <header class="header">
-        <div class="header-content">
-            <a href="#" class="logo">THE secret</a>
-            <div class="user-info" id="userInfo"></div>
+    <div class="container">
+        <h1 class="logo">THE secret</h1>
+        <p class="subtitle">統合サイト - 管理者・受講生対応</p>
+        
+        <div class="info-box">
+            <h2 style="color: #ff1493; margin-bottom: 1rem;">統合サイト機能</h2>
+            <p style="margin-bottom: 2rem; line-height: 1.6;">
+                このサイトは管理者と受講生が同じプラットフォームを使用する統合型システムです。
+                パスワードによって異なる機能にアクセスできます。
+            </p>
+            
+            <ul class="feature-list">
+                <li>管理者モード: TIPSレベルエディターで記事作成・編集</li>
+                <li>受講生モード: コース別記事閲覧・学習</li>
+                <li>GitHub Issues API: オンライン記事保存・管理</li>
+                <li>THE SECRETデザイン: 統一された美しいインターフェース</li>
+                <li>YouTube動画埋め込み対応</li>
+                <li>画像ドラッグ&ドロップ機能</li>
+            </ul>
         </div>
-    </header>
-
-    <main class="main-content">
-        <!-- ログイン画面 -->
-        <div id="loginSection" class="login-section">
-            <h1 class="login-title">THE secret</h1>
-            <p class="login-subtitle">統合サイト - 管理者・受講生対応</p>
-            
-            <form id="loginForm">
-                <div class="form-group">
-                    <label class="form-label">パスワード</label>
-                    <input type="password" id="passwordInput" class="form-input" placeholder="パスワードを入力してください...">
-                    <div style="margin-top: 0.5rem; font-size: 0.8rem; color: rgba(255, 255, 255, 0.6);">
-                        管理者: admin123 | コース1: course1 | コース2: course2 | コース3: course3
-                    </div>
-                </div>
-                <button type="submit" class="login-btn">Enter</button>
-            </form>
+        
+        <div class="warning">
+            <strong>⚠️ GitHub Pages制限について</strong><br>
+            GitHub Pagesは静的サイトのため、完全な動的機能は制限されます。
+            フル機能を利用するには、以下のファイルをダウンロードしてローカル実行してください。
         </div>
-
-        <!-- 管理者エディターパネル -->
-        <div id="adminPanel" class="panel hidden">
-            <button class="logout-btn" onclick="logout()">ログアウト</button>
-            <h2 class="panel-title">TIPS Level Editor</h2>
-            
-            <!-- GitHub接続状態 -->
-            <div class="github-status">
-                <div class="status-indicator"></div>
-                <span>GitHub Issues API 接続済み - オンライン保存有効</span>
-            </div>
-            
-            <form class="editor-form" id="articleForm">
-                <!-- 記事情報 -->
-                <div class="form-section">
-                    <h3 class="section-title">記事情報</h3>
-                    <div class="form-group">
-                        <label class="form-label">記事タイトル</label>
-                        <input type="text" id="articleTitle" class="form-input" placeholder="記事のタイトルを入力してください">
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label">対象コース</label>
-                        <select id="articleCourse" class="form-input">
-                            <option value="course1">コース1: 基礎編</option>
-                            <option value="course2">コース2: 応用編</option>
-                            <option value="course3">コース3: 上級編</option>
-                        </select>
-                    </div>
-                </div>
-
-                <!-- エディター -->
-                <div class="form-section">
-                    <h3 class="section-title">記事内容</h3>
-                    
-                    <!-- ツールバー -->
-                    <div class="editor-toolbar">
-                        <button type="button" class="toolbar-btn" onclick="formatText('bold')">太字</button>
-                        <button type="button" class="toolbar-btn" onclick="formatText('italic')">斜体</button>
-                        <button type="button" class="toolbar-btn" onclick="formatText('underline')">下線</button>
-                        <button type="button" class="toolbar-btn color-red" onclick="setTextColor('red')">赤</button>
-                        <button type="button" class="toolbar-btn color-blue" onclick="setTextColor('blue')">青</button>
-                        <button type="button" class="toolbar-btn" onclick="resetFormat()">リセット</button>
-                        <button type="button" class="toolbar-btn" onclick="document.getElementById('imageInput').click()">画像選択</button>
-                    </div>
-
-                    <!-- 画像アップロード -->
-                    <input type="file" id="imageInput" accept="image/*" style="display: none;" onchange="handleImageSelect(event)">
-                    
-                    <!-- ドラッグ&ドロップエリア -->
-                    <div class="drop-zone" id="dropZone">
-                        <div class="drop-zone-text">
-                            📷 画像をここにドラッグ&ドロップ または 上の「画像選択」ボタンをクリック
-                        </div>
-                    </div>
-
-                    <!-- エディター本体 -->
-                    <div contenteditable="true" class="editor-content" id="editorContent" placeholder="記事の内容を入力してください..."></div>
-                    
-                    <!-- 文字数カウンター -->
-                    <div class="char-counter" id="charCounter">0 文字</div>
-                </div>
-
-                <!-- アクションボタン -->
-                <div class="form-section">
-                    <div style="text-align: center;">
-                        <button type="button" class="action-btn save-btn" onclick="saveToGitHub()" id="saveBtn">
-                            GitHub Issues に保存
-                        </button>
-                        <button type="button" class="action-btn" onclick="previewArticle()">プレビュー</button>
-                        <button type="button" class="action-btn" onclick="clearEditor()">新規作成</button>
-                        <button type="button" class="action-btn" onclick="loadArticles()">記事一覧</button>
-                    </div>
-                </div>
-            </form>
+        
+        <div style="margin-top: 2rem;">
+            <a href="https://github.com/ICHIJO-999/love/blob/main/the-secret-integrated.html" class="btn" target="_blank">
+                フル機能版ダウンロード
+            </a>
+            <a href="https://github.com/ICHIJO-999/love/issues" class="btn" target="_blank">
+                記事一覧（Issues）
+            </a>
+            <a href="https://github.com/ICHIJO-999/love" class="btn" target="_blank">
+                GitHubリポジトリ
+            </a>
         </div>
-
-        <!-- 受講生パネル -->
-        <div id="studentPanel" class="panel hidden">
-            <button class="logout-btn" onclick="logout()">ログアウト</button>
-            <h2 class="panel-title" id="studentTitle">コース記事一覧</h2>
-            
-            <!-- コース情報 -->
-            <div class="course-info">
-                <div class="course-name" id="courseName"></div>
-                <div id="courseDescription"></div>
-            </div>
-            
-            <!-- 記事一覧 -->
-            <div class="articles-container" id="articlesContainer">
-                <div style="text-align: center; color: rgba(255, 255, 255, 0.7);">
-                    記事を読み込み中...
-                </div>
-            </div>
+        
+        <div style="margin-top: 3rem; font-size: 0.9rem; color: rgba(255,255,255,0.6);">
+            <p>パスワード: admin123 (管理者) | course1/2/3 (受講生)</p>
+            <p>完全版では上記パスワードで各モードにアクセスできます</p>
         </div>
-    </main>
-
-    <script>
-        // GitHub設定
-        const GITHUB_TOKEN = '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';
-        const GITHUB_OWNER = 'ICHIJO-999';
-        const GITHUB_REPO = 'love';
-        const GITHUB_API_BASE = 'https://api.github.com';
-
-        // 認証設定
-        const passwords = {
-            'admin123': { type: 'admin', name: '管理者' },
-            'course1': { type: 'student', course: 'course1', name: 'コース1: 基礎編', description: '恋愛の基本的な考え方とアプローチ方法を学びます' },
-            'course2': { type: 'student', course: 'course2', name: 'コース2: 応用編', description: '実践的なテクニックとコミュニケーション術を習得します' },
-            'course3': { type: 'student', course: 'course3', name: 'コース3: 上級編', description: '高度な心理学と長期的な関係構築を学びます' }
-        };
-
-        let currentUser = null;
-
-        // ログイン処理
-        document.getElementById('loginForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            const password = document.getElementById('passwordInput').value;
-            
-            if (passwords[password]) {
-                currentUser = passwords[password];
-                showPanel();
-            } else {
-                alert('パスワードが間違っています');
-            }
-        });
-
-        function showPanel() {
-            document.getElementById('loginSection').style.display = 'none';
-            
-            if (currentUser.type === 'admin') {
-                document.getElementById('adminPanel').classList.remove('hidden');
-                document.getElementById('userInfo').textContent = '管理者 - GitHub連携エディター';
-                initializeEditor();
-                testGitHubConnection();
-            } else {
-                document.getElementById('studentPanel').classList.remove('hidden');
-                document.getElementById('userInfo').textContent = `${currentUser.name} 受講生`;
-                document.getElementById('courseName').textContent = currentUser.name;
-                document.getElementById('courseDescription').textContent = currentUser.description;
-                loadCourseArticles(currentUser.course);
-            }
-        }
-
-        function logout() {
-            currentUser = null;
-            document.getElementById('loginSection').style.display = 'block';
-            document.getElementById('adminPanel').classList.add('hidden');
-            document.getElementById('studentPanel').classList.add('hidden');
-            document.getElementById('userInfo').textContent = '';
-            document.getElementById('passwordInput').value = '';
-        }
-
-        // GitHub接続テスト
-        async function testGitHubConnection() {
-            try {
-                const response = await fetch(`${GITHUB_API_BASE}/user`, {
-                    headers: {
-                        'Authorization': `Bearer ${GITHUB_TOKEN}`,
-                        'Accept': 'application/vnd.github+json'
-                    }
-                });
-                
-                if (response.ok) {
-                    const user = await response.json();
-                    console.log('GitHub接続成功:', user.login);
-                } else {
-                    console.error('GitHub接続エラー:', response.status);
-                }
-            } catch (error) {
-                console.error('GitHub接続失敗:', error);
-            }
-        }
-
-        // エディター初期化（管理者用）
-        function initializeEditor() {
-            const editor = document.getElementById('editorContent');
-            const charCounter = document.getElementById('charCounter');
-            const dropZone = document.getElementById('dropZone');
-
-            // 文字数カウンター
-            editor.addEventListener('input', function() {
-                const text = editor.textContent || editor.innerText || '';
-                charCounter.textContent = text.length + ' 文字';
-            });
-
-            // ドラッグ&ドロップ
-            dropZone.addEventListener('dragover', function(e) {
-                e.preventDefault();
-                dropZone.classList.add('dragover');
-            });
-
-            dropZone.addEventListener('dragleave', function(e) {
-                e.preventDefault();
-                dropZone.classList.remove('dragover');
-            });
-
-            dropZone.addEventListener('drop', function(e) {
-                e.preventDefault();
-                dropZone.classList.remove('dragover');
-                
-                const files = e.dataTransfer.files;
-                if (files.length > 0 && files[0].type.startsWith('image/')) {
-                    handleImageFile(files[0]);
-                }
-            });
-
-            // エディターにドラッグ&ドロップ
-            editor.addEventListener('dragover', function(e) {
-                e.preventDefault();
-            });
-
-            editor.addEventListener('drop', function(e) {
-                e.preventDefault();
-                const files = e.dataTransfer.files;
-                if (files.length > 0 && files[0].type.startsWith('image/')) {
-                    handleImageFile(files[0]);
-                }
-            });
-        }
-
-        // テキストフォーマット（管理者用）
-        function formatText(command) {
-            document.execCommand(command, false, null);
-            document.getElementById('editorContent').focus();
-        }
-
-        function setTextColor(color) {
-            const colorValue = color === 'red' ? '#ff0000' : '#0066ff';
-            document.execCommand('foreColor', false, colorValue);
-            document.getElementById('editorContent').focus();
-        }
-
-        function resetFormat() {
-            document.execCommand('removeFormat', false, null);
-            document.getElementById('editorContent').focus();
-        }
-
-        // 画像処理（管理者用）
-        function handleImageSelect(event) {
-            const file = event.target.files[0];
-            if (file && file.type.startsWith('image/')) {
-                handleImageFile(file);
-            }
-        }
-
-        function handleImageFile(file) {
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                const img = document.createElement('img');
-                img.src = e.target.result;
-                img.style.maxWidth = '100%';
-                img.style.height = 'auto';
-                img.style.borderRadius = '10px';
-                img.style.margin = '1rem 0';
-                
-                // エディターに画像を挿入
-                const editor = document.getElementById('editorContent');
-                const selection = window.getSelection();
-                if (selection.rangeCount > 0) {
-                    const range = selection.getRangeAt(0);
-                    range.insertNode(img);
-                    range.collapse(false);
-                } else {
-                    editor.appendChild(img);
-                }
-                
-                // 文字数更新
-                const text = editor.textContent || editor.innerText || '';
-                document.getElementById('charCounter').textContent = text.length + ' 文字';
-            };
-            reader.readAsDataURL(file);
-        }
-
-        // GitHub Issues APIに保存（管理者用）
-        async function saveToGitHub() {
-            const title = document.getElementById('articleTitle').value;
-            const course = document.getElementById('articleCourse').value;
-            const content = document.getElementById('editorContent').innerHTML;
-            const saveBtn = document.getElementById('saveBtn');
-
-            if (!title.trim()) {
-                alert('記事タイトルを入力してください');
-                return;
-            }
-
-            if (!content.trim()) {
-                alert('記事内容を入力してください');
-                return;
-            }
-
-            // ローディング表示
-            saveBtn.innerHTML = '<span class="loading"></span> 保存中...';
-            saveBtn.disabled = true;
-
-            try {
-                // GitHub Issues APIに投稿
-                const issueData = {
-                    title: title,
-                    body: formatIssueBody(content, course),
-                    labels: [`course:${course}`, 'tips-editor', 'article']
-                };
-
-                const response = await fetch(`${GITHUB_API_BASE}/repos/${GITHUB_OWNER}/${GITHUB_REPO}/issues`, {
-                    method: 'POST',
-                    headers: {
-                        'Authorization': `Bearer ${GITHUB_TOKEN}`,
-                        'Accept': 'application/vnd.github+json',
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify(issueData)
-                });
-
-                if (response.ok) {
-                    const issue = await response.json();
-                    alert(`記事がGitHub Issuesに正常に保存されました！\n\nタイトル: ${title}\nコース: ${course}\nIssue番号: #${issue.number}\nURL: ${issue.html_url}`);
-                    clearEditor();
-                } else {
-                    const error = await response.json();
-                    throw new Error(`GitHub API エラー: ${response.status} - ${error.message}`);
-                }
-            } catch (error) {
-                console.error('保存エラー:', error);
-                alert(`保存に失敗しました: ${error.message}`);
-            } finally {
-                // ローディング解除
-                saveBtn.innerHTML = 'GitHub Issues に保存';
-                saveBtn.disabled = false;
-            }
-        }
-
-        // Issue本文のフォーマット
-        function formatIssueBody(content, course) {
-            const frontMatter = `---
-作成日: ${new Date().toISOString()}
-コース: ${course}
-エディター: TIPS Level Editor
----
-
-`;
-            return frontMatter + content;
-        }
-
-        // 記事一覧を取得（管理者用）
-        async function loadArticles() {
-            try {
-                const response = await fetch(`${GITHUB_API_BASE}/repos/${GITHUB_OWNER}/${GITHUB_REPO}/issues?labels=tips-editor&state=all`, {
-                    headers: {
-                        'Authorization': `Bearer ${GITHUB_TOKEN}`,
-                        'Accept': 'application/vnd.github+json'
-                    }
-                });
-
-                if (response.ok) {
-                    const issues = await response.json();
-                    let articleList = `保存済み記事一覧 (${issues.length}件):\n\n`;
-                    
-                    issues.forEach((issue, index) => {
-                        articleList += `${index + 1}. ${issue.title} (#${issue.number})\n`;
-                        articleList += `   作成日: ${new Date(issue.created_at).toLocaleDateString()}\n`;
-                        articleList += `   URL: ${issue.html_url}\n\n`;
-                    });
-                    
-                    alert(articleList);
-                } else {
-                    throw new Error(`記事一覧の取得に失敗: ${response.status}`);
-                }
-            } catch (error) {
-                console.error('記事一覧取得エラー:', error);
-                alert(`記事一覧の取得に失敗しました: ${error.message}`);
-            }
-        }
-
-        // コース記事を読み込み（受講生用）
-        async function loadCourseArticles(course) {
-            const container = document.getElementById('articlesContainer');
-            
-            try {
-                const response = await fetch(`${GITHUB_API_BASE}/repos/${GITHUB_OWNER}/${GITHUB_REPO}/issues?labels=course:${course},tips-editor&state=open`, {
-                    headers: {
-                        'Authorization': `Bearer ${GITHUB_TOKEN}`,
-                        'Accept': 'application/vnd.github+json'
-                    }
-                });
-
-                if (response.ok) {
-                    const issues = await response.json();
-                    
-                    if (issues.length === 0) {
-                        container.innerHTML = `
-                            <div style="text-align: center; color: rgba(255, 255, 255, 0.7);">
-                                <h3>まだ記事がありません</h3>
-                                <p>管理者が記事を投稿するまでお待ちください。</p>
-                            </div>
-                        `;
-                        return;
-                    }
-
-                    container.innerHTML = '';
-                    
-                    issues.forEach(issue => {
-                        const articleCard = document.createElement('div');
-                        articleCard.className = 'article-card';
-                        
-                        // 記事本文からHTMLコンテンツを抽出
-                        const bodyLines = issue.body.split('\n');
-                        const contentStartIndex = bodyLines.findIndex(line => line.includes('---')) + 1;
-                        const contentLines = bodyLines.slice(contentStartIndex + 1);
-                        const content = contentLines.join('\n');
-                        
-                        articleCard.innerHTML = `
-                            <h3 class="article-title">${issue.title}</h3>
-                            <div class="article-meta">
-                                <span>📅 ${new Date(issue.created_at).toLocaleDateString('ja-JP')}</span>
-                                <span>🏷️ ${currentUser.name}</span>
-                                <span>📝 Issue #${issue.number}</span>
-                            </div>
-                            <div class="article-content">${content}</div>
-                        `;
-                        
-                        container.appendChild(articleCard);
-                    });
-                } else {
-                    throw new Error(`記事の取得に失敗: ${response.status}`);
-                }
-            } catch (error) {
-                console.error('記事取得エラー:', error);
-                container.innerHTML = `
-                    <div style="text-align: center; color: rgba(255, 0, 0, 0.7);">
-                        <h3>記事の読み込みに失敗しました</h3>
-                        <p>エラー: ${error.message}</p>
-                    </div>
-                `;
-            }
-        }
-
-        // プレビュー（管理者用）
-        function previewArticle() {
-            const title = document.getElementById('articleTitle').value;
-            const content = document.getElementById('editorContent').innerHTML;
-            
-            if (!title.trim() || !content.trim()) {
-                alert('タイトルと内容を入力してください');
-                return;
-            }
-
-            const previewWindow = window.open('', '_blank');
-            previewWindow.document.write(`
-                <!DOCTYPE html>
-                <html>
-                <head>
-                    <title>${title}</title>
-                    <style>
-                        body { 
-                            font-family: 'Hiragino Sans', sans-serif; 
-                            line-height: 1.6; 
-                            max-width: 800px; 
-                            margin: 0 auto; 
-                            padding: 2rem;
-                            background: #000;
-                            color: #fff;
-                        }
-                        h1 { 
-                            color: #ff1493; 
-                            text-shadow: 0 0 10px rgba(255, 20, 147, 0.5);
-                        }
-                        img { max-width: 100%; height: auto; }
-                    </style>
-                </head>
-                <body>
-                    <h1>${title}</h1>
-                    <div>${content}</div>
-                </body>
-                </html>
-            `);
-        }
-
-        // エディタークリア（管理者用）
-        function clearEditor() {
-            document.getElementById('articleTitle').value = '';
-            document.getElementById('editorContent').innerHTML = '';
-            document.getElementById('charCounter').textContent = '0 文字';
-            document.getElementById('articleCourse').selectedIndex = 0;
-        }
-    </script>
+    </div>
 </body>
 </html>
