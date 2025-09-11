@@ -27,7 +27,7 @@ export default async function handler(req, res) {
     const response = await fetch('https://api.github.com/repos/ICHIJO-999/love/issues', {
       method: 'POST',
       headers: {
-        'Authorization': `token ${token}`,
+        'Authorization': `Bearer ${token}`,
         'Content-Type': 'application/json',
         'Accept': 'application/vnd.github.v3+json'
       },
